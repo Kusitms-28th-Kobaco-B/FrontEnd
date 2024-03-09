@@ -25,17 +25,6 @@ const BrandReputationIndex = () => {
         </RankBox>
       </Layout>
     </>
-    <RankingBox>
-      {brandRequtation.map((brand) => (
-        <Ranking
-          key={brand.id}
-          title={brand.title}
-          ranking={brand.ranking}
-          trend={brand.trend}
-          updown={brand.updown}
-        />
-      ))}
-    </RankingBox>
   );
 };
 
