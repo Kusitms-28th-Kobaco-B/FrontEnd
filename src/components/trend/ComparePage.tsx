@@ -3,7 +3,7 @@
 import styled from "styled-components";
 import { LineChart } from "./LineChart";
 import TrendSearch from "./PeopleSearch";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TrendTop from "./TrendTop";
 import ToggleButton from "../common/ToggleButton";
 import CompareRadialChart from "./CompareRadialChart";
@@ -11,21 +11,54 @@ import CompareBarChart from "./CompareBarChart";
 import Image from "next/image";
 import { infoData, relatedContentCompareData } from "@/lib/trend/trendData";
 import RelatedContents from "./RelatedContents";
+import CompareTop from "./CompareTop";
 
 const ComparePage = () => {
   const [searchWord, setSearchWord] = useState("");
+  const [item1, setItem1] = useState("");
+  const [item2, setItem2] = useState("");
+  const [item3, setItem3] = useState("");
+
+  const handleSearch = (word: string) => {
+    if (!item1) {
+      setItem1(word);
+    } else if (!item2) {
+      setItem2(word);
+    } else if (!item3) {
+      setItem3(word);
+    } else {
+      setItem1("선택");
+      setItem2("선택");
+      setItem3("선택");
+    }
+  };
+
+  useEffect(() => {
+    if (item1 && item2) {
+      setSearchWord(`${item1} vs ${item2}`);
+    }
+    if (item1 && item2 && item3) {
+      setSearchWord(`${item1} vs ${item2} vs ${item3}`);
+    }
+  }, [item1, item2, item3]);
 
   return (
     <Layout>
-      <TrendSearch
-        title="비교"
-        description="인물/키워드 간 비교를 통해 검색량 추이부터 공통 연관어 비교, 관련 콘텐츠까지 확인할 수 있어요."
-        placeholder="예) 예금 vs 적금, 안유진 vs 동원참치 vs 조정석"
-        src="/trend/compareAnalysis.png"
-        setSearchName={setSearchWord}
-      />
+      <TrendSearchBox>
+        <TrendSearch
+          title="비교"
+          description="인물/키워드 간 비교를 통해 검색량 추이부터 공통 연관어 비교, 관련 콘텐츠까지 확인할 수 있어요."
+          placeholder="예) 예금 vs 적금, 안유진 vs 동원참치 vs 조정석"
+          src="/trend/compareAnalysis.png"
+          setSearchName={(word) => {
+            setSearchWord(word);
+            handleSearch(word);
+          }}
+        />
+        <CompareTop item1={item1} item2={item2} item3={item3} />
+      </TrendSearchBox>
 
-      {searchWord !== "" && (
+      {searchWord !== "" && searchWord !== item1 && (
         <>
           <TrendTop />
           <SearchText>
@@ -184,4 +217,10 @@ const Text = styled.div`
   font-weight: 500;
   color: ${({ theme }) => theme.colors.white};
   margin: 4rem 0 2rem 0;
+`;
+
+const TrendSearchBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 60%;
 `;
