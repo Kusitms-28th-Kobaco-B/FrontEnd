@@ -7,7 +7,7 @@ import RadialChart from "./RadialChart";
 import BarChart from "./BarChart";
 import BrandReputationIndex from "./BrandReputationIndex";
 import RelatedHashTag from "./RelatedHashTag";
-import TrendSearch from "./TrendSearch";
+import TrendSearch from "./PeopleSearch";
 import RelatedContents from "./RelatedContents";
 import { useState } from "react";
 import TrendTop from "./TrendTop";

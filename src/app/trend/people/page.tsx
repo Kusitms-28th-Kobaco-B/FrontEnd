@@ -1,11 +1,11 @@
 import NOSSR from "@/components/common/NOSSR";
 import Footer from "@/components/footer/Footer";
-import TrendPage from "@/components/trend/TrendPage";
+import PeoplePage from "@/components/trend/PeoplePage";
 
 const Trend = async () => {
   return (
     <NOSSR>
-      <TrendPage />
+      <PeoplePage />
       <Footer />
     </NOSSR>
   );

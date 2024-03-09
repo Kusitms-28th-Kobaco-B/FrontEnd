@@ -2,7 +2,7 @@
 
 import styled from "styled-components";
 import { LineChart } from "./LineChart";
-import TrendSearch from "./TrendSearch";
+import TrendSearch from "./PeopleSearch";
 import { useState } from "react";
 import TrendTop from "./TrendTop";
 import ToggleButton from "../common/ToggleButton";

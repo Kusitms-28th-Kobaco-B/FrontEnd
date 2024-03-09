@@ -5,7 +5,7 @@ import { LineChart } from "./LineChart";
 import RadialChart from "./RadialChart";
 import BarChart from "./BarChart";
 import RelatedHashTag from "./RelatedHashTag";
-import TrendSearch from "./TrendSearch";
+import TrendSearch from "./PeopleSearch";
 import { useState } from "react";
 import TrendTop from "./TrendTop";
 import ToggleButton from "../common/ToggleButton";
