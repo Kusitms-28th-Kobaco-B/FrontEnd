@@ -21,6 +21,9 @@ interface ValuesProps {
 const CopyMaker = () => {
   const size = useWindowSize();
 
+  // // 생성 버튼 disabled 인지 아닌지
+  // const [canSubmit, setCanSubmit] = useState(false);
+
   const [focused, setFocused] = useState("");
   // 포커스 상태 변경 함수
   const handleFocus = (name: string) => {
@@ -347,6 +350,7 @@ const CopyMaker = () => {
         </Contents>
       </BoxContent>
       <SubmitButton
+        // disabled={!canSubmit}
         type="submit"
         form="createCopy"
         onClick={() =>
