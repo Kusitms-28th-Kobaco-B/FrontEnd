@@ -21,8 +21,8 @@ interface ValuesProps {
 const CopyMaker = () => {
   const size = useWindowSize();
 
-  // // 생성 버튼 disabled 인지 아닌지
-  // const [canSubmit, setCanSubmit] = useState(false);
+  // 생성 버튼 disabled 인지 아닌지
+  const [canSubmit, setCanSubmit] = useState(false);
 
   const [focused, setFocused] = useState("");
   // 포커스 상태 변경 함수
@@ -350,7 +350,7 @@ const CopyMaker = () => {
         </Contents>
       </BoxContent>
       <SubmitButton
-        // disabled={!canSubmit}
+        disabled={!canSubmit}
         type="submit"
         form="createCopy"
         onClick={() =>
@@ -483,8 +483,8 @@ const SubmitButton = styled.button`
   align-items: center;
   border-radius: 2.1875rem;
   border: none;
-  color: ${colors.white};
-  background: ${colors.main};
+  color: ${(props) => (props.disabled ? colors.grey05 : colors.white)};
+  background: ${(props) => (props.disabled ? "#393939" : colors.main)};
   margin-top: 1.88rem;
 `;
 const KeywordRegion = styled.ul`
