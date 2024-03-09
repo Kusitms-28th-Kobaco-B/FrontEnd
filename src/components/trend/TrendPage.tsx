@@ -12,21 +12,25 @@ import RelatedContents from "./RelatedContents";
 import { useState } from "react";
 import TrendTop from "./TrendTop";
 import ToggleButton from "../common/ToggleButton";
-import { relatedContentData } from "@/lib/trend/trendData";
+import { recentSearchData, relatedContentData } from "@/lib/trend/trendData";
+import RecentSearchBox from "./RecentSearchBox";
 
 const TrendPage = () => {
   const [searchName, setSearchName] = useState("");
 
   return (
     <Layout>
-      <TrendSearch
-        title="인물"
-        description="검색량과 연관어 추이, 브랜드 평판 지수를 통해 인물에 대한 정보를 한 번에
+      <TrendSearchBox>
+        <TrendSearch
+          title="인물"
+          description="검색량과 연관어 추이, 브랜드 평판 지수를 통해 인물에 대한 정보를 한 번에
         확인할 수 있어요."
-        placeholder="예) 유재석, 라이즈, 최민식"
-        src="/trend/peopleAnalysis.png"
-        setSearchName={setSearchName}
-      />
+          placeholder="예) 유재석, 라이즈, 최민식"
+          src="/trend/peopleAnalysis.png"
+          setSearchName={setSearchName}
+        />
+        <RecentSearchBox data={recentSearchData} />
+      </TrendSearchBox>
 
       {searchName !== "" && (
         <>
@@ -150,4 +154,10 @@ const PlusButtonBox = styled.div`
     background: #252525;
     color: #b4b4b4;
   }
+`;
+
+const TrendSearchBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 60%;
 `;

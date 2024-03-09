@@ -1,9 +1,7 @@
 "use client";
 
 import styled from "styled-components";
-import RecentSearchContent from "./RecentSearchContent";
 import Image from "next/image";
-import { recentSearchData } from "@/lib/trend/trendData";
 import { useState } from "react";
 
 interface TrendPeopleSearchProps {
@@ -46,12 +44,6 @@ const TrendSearch = (props: TrendPeopleSearchProps) => {
           onKeyDown={handleKeyDown}
         />
       </SearchBarBox>
-
-      <RecentSearchBox>
-        {recentSearchData.map((recentSearch) => (
-          <RecentSearchContent key={recentSearch.id} name={recentSearch.name} />
-        ))}
-      </RecentSearchBox>
     </Layout>
   );
 };
@@ -61,10 +53,9 @@ export default TrendSearch;
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  width: 50%;
   justify-content: center;
   align-items: center;
-  padding-bottom: 200px;
+  width: 100%;
 `;
 
 const SubTitle = styled.div`
@@ -102,7 +93,7 @@ const SearchImage = styled.div`
   justify-content: center;
   position: absolute;
   left: 2.5rem;
-  top: 1.4rem;
+  top: 1.1rem;
 `;
 
 const SearchBar = styled.input`
@@ -110,17 +101,9 @@ const SearchBar = styled.input`
   width: 100%;
   height: 100%;
   background: #313131;
-  padding: 1.5rem 5rem;
+  padding: 1.2rem 5rem;
   outline: none;
   border-radius: 100px;
   border: none;
   color: ${({ theme }) => theme.colors.white};
-`;
-
-const RecentSearchBox = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: start;
-  gap: 0.5rem;
-  margin: 1.5rem 0 0 2rem;
 `;
