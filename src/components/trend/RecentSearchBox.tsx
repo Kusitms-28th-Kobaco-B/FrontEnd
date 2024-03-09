@@ -27,5 +27,5 @@ const RecentSearchBoxStyle = styled.div`
   display: flex;
   justify-content: start;
   gap: 0.5rem;
-  margin-top: 1rem;
+  margin: 1rem 0 8rem 0;
 `;
