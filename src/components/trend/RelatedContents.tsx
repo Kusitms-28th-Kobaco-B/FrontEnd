@@ -1,11 +1,20 @@
 import { styled } from "styled-components";
 import RelatedContent from "./RelatedContent";
-import { relatedContentData } from "@/lib/trend/trendData";
 
-const RelatedContents = () => {
+interface RelatedContentProps {
+  data: {
+    title: string;
+    src: string;
+    date: string;
+  }[];
+}
+
+const RelatedContents = (props: RelatedContentProps) => {
+  const { data } = props;
+
   return (
     <RelatedContentBox>
-      {relatedContentData.map((relatedContent) => (
+      {data.map((relatedContent) => (
         <RelatedContent
           title={relatedContent.title}
           src={relatedContent.src}

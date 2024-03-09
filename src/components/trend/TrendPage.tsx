@@ -12,6 +12,7 @@ import RelatedContents from "./RelatedContents";
 import { useState } from "react";
 import TrendTop from "./TrendTop";
 import ToggleButton from "../common/ToggleButton";
+import { relatedContentData } from "@/lib/trend/trendData";
 
 const TrendPage = () => {
   const [searchName, setSearchName] = useState("");
@@ -67,7 +68,7 @@ const TrendPage = () => {
               <Title>관련 콘텐츠</Title>
               <ToggleButton items={["최신순", "인기순"]} />
             </TitleBox>
-            <RelatedContents />
+            <RelatedContents data={relatedContentData} />
             <PlusButtonBox>
               <Title>더보기</Title>
             </PlusButtonBox>

@@ -82,3 +82,42 @@ export const relatedContentData = [
     date: "2022.03.01",
   },
 ];
+
+export const relatedContentCompareData = [
+  {
+    id: 1,
+    title:
+      "[#떡상ing] 대배우 이병헌? 놉! 아랑곳하지 않는 이민정ㅋㅋㅋ😁 20분 내내 끊임없이 소환되는 남편 이병헌과의 티키타카.....",
+    src: "유튜브",
+    date: "2022.03.01",
+  },
+  {
+    id: 2,
+    title:
+      "[#떡상ing] 대배우 이병헌? 놉! 아랑곳하지 않는 이민정ㅋㅋㅋ😁 20분 내내 끊임없이 소환되는 남편 이병헌과의 티키타카.....",
+    src: "블로그",
+    date: "2022.03.01",
+  },
+  {
+    id: 3,
+    title:
+      "[#떡상ing] 대배우 이병헌? 놉! 아랑곳하지 않는 이민정ㅋㅋㅋ😁 20분 내내 끊임없이 소환되는 남편 이병헌과의 티키타카.....",
+    src: "네이버 기사",
+    date: "2022.03.01",
+  },
+];
+
+export const infoData = [
+  {
+    category: "40대",
+    ratio: 20,
+  },
+  {
+    category: "50대",
+    ratio: 16.2,
+  },
+  {
+    category: "60대",
+    ratio: 12.5,
+  },
+];

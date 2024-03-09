@@ -2,29 +2,15 @@
 
 import styled from "styled-components";
 import { LineChart } from "./LineChart";
-import RelatedHashTag from "./RelatedHashTag";
 import TrendSearch from "./TrendSearch";
 import { useState } from "react";
 import TrendTop from "./TrendTop";
 import ToggleButton from "../common/ToggleButton";
 import CompareRadialChart from "./CompareRadialChart";
-import BarChart from "./BarChart";
 import CompareBarChart from "./CompareBarChart";
-
-const infoData = [
-  {
-    category: "40대",
-    ratio: 20,
-  },
-  {
-    category: "50대",
-    ratio: 16.2,
-  },
-  {
-    category: "60대",
-    ratio: 12.5,
-  },
-];
+import Image from "next/image";
+import { infoData, relatedContentCompareData } from "@/lib/trend/trendData";
+import RelatedContents from "./RelatedContents";
 
 const ComparePage = () => {
   const [searchWord, setSearchWord] = useState("");
@@ -78,14 +64,31 @@ const ComparePage = () => {
             </ChartBox>
           </ContentWrapper>
 
-          <ContentWrapper width="87.5rem">
-            <Title marginBottom="2.5rem">관련 해시태그</Title>
-            <RelatedHashTag />
-          </ContentWrapper>
+          <ContentContainer width="87.5rem">
+            <TitleBottomBox>
+              <Title>연관어 비교</Title>
+              <ImageBottomBox>
+                <Image
+                  src="/trend/commonWord.svg"
+                  alt="연관어 비교"
+                  width={10}
+                  height={10}
+                />
+                공통 키워드
+              </ImageBottomBox>
+            </TitleBottomBox>
+            <ImageBox>
+              <Image
+                src="/trend/relatedWordCompare.svg"
+                alt="연관어 비교"
+                width={1000}
+                height={400}
+              />
+            </ImageBox>
 
-          <ContentWrapper width="87.5rem">
-            <Title marginBottom="2.5rem">네이버 쇼핑 키워드</Title>
-          </ContentWrapper>
+            <Text>관련 콘텐츠</Text>
+            <RelatedContents data={relatedContentCompareData} />
+          </ContentContainer>
         </>
       )}
     </Layout>
@@ -119,12 +122,33 @@ const ContentWrapper = styled.div<{ width: string }>`
   border-radius: 1.875rem;
   background: #212121;
 `;
+const ContentContainer = styled.div<{ width: string }>`
+  width: ${(props) => props.width};
+  padding: 2.25rem 2.5rem;
+  border-radius: 1.875rem;
+  background: #212121;
+  display: flex;
+  flex-direction: column;
+`;
 
 const TitleBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2.5rem;
+`;
+
+const TitleBottomBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+`;
+
+const ImageBottomBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 `;
 
 const Title = styled.div<{ marginBottom?: string }>`
@@ -141,10 +165,23 @@ const Title = styled.div<{ marginBottom?: string }>`
   font-weight: 400;
   line-height: normal;
   margin-bottom: ${(props) => props.marginBottom};
+  width: fit-content;
 `;
 
 const ChartBox = styled.div`
   display: flex;
   justify-content: center;
   gap: 8rem;
+`;
+
+const ImageBox = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const Text = styled.div`
+  font-size: 1rem;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.white};
+  margin: 4rem 0 2rem 0;
 `;
