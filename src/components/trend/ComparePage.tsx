@@ -8,6 +8,23 @@ import { useState } from "react";
 import TrendTop from "./TrendTop";
 import ToggleButton from "../common/ToggleButton";
 import CompareRadialChart from "./CompareRadialChart";
+import BarChart from "./BarChart";
+import CompareBarChart from "./CompareBarChart";
+
+const infoData = [
+  {
+    category: "40대",
+    ratio: 20,
+  },
+  {
+    category: "50대",
+    ratio: 16.2,
+  },
+  {
+    category: "60대",
+    ratio: 12.5,
+  },
+];
 
 const ComparePage = () => {
   const [searchWord, setSearchWord] = useState("");
@@ -15,7 +32,7 @@ const ComparePage = () => {
   return (
     <Layout>
       <TrendSearch
-        title="비교 분석"
+        title="비교"
         description="인물/키워드 간 비교를 통해 검색량 추이부터 공통 연관어 비교, 관련 콘텐츠까지 확인할 수 있어요."
         placeholder="예) 예금 vs 적금, 안유진 vs 동원참치 vs 조정석"
         src="/trend/compareAnalysis.png"
@@ -26,7 +43,7 @@ const ComparePage = () => {
         <>
           <TrendTop />
           <SearchText>
-            <span>"{searchWord}"</span>에 대한 인물 분석 결과입니다.
+            <span>"{searchWord}"</span>에 대한 비교 분석 결과입니다.
           </SearchText>
 
           <ContentWrapper width="87.5rem">
@@ -37,15 +54,29 @@ const ComparePage = () => {
             <LineChart />
           </ContentWrapper>
 
-          <InlineContent>
-            <ContentWrapper width="87.5rem">
-              <Title marginBottom="2.5rem">성별 검색 비중</Title>
-              <RadialChartBox>
-                <CompareRadialChart label="홈 인테리어" woman={56} man={44} />
-                <CompareRadialChart label="샴푸" woman={30} man={70} />
-              </RadialChartBox>
-            </ContentWrapper>
-          </InlineContent>
+          <ContentWrapper width="87.5rem">
+            <Title marginBottom="2.5rem">성별 검색 비중</Title>
+            <ChartBox>
+              <CompareRadialChart label="홈 인테리어" woman={56} man={44} />
+              <CompareRadialChart label="샴푸" woman={30} man={70} />
+            </ChartBox>
+          </ContentWrapper>
+
+          <ContentWrapper width="87.5rem">
+            <Title marginBottom="2.5rem">연령별 검색 비중 TOP 3</Title>
+            <ChartBox>
+              <CompareBarChart
+                label="홈 인테리어"
+                color="#ED6171"
+                infoData={infoData}
+              />
+              <CompareBarChart
+                label="샴푸"
+                color="#8796E9"
+                infoData={infoData}
+              />
+            </ChartBox>
+          </ContentWrapper>
 
           <ContentWrapper width="87.5rem">
             <Title marginBottom="2.5rem">관련 해시태그</Title>
@@ -112,18 +143,7 @@ const Title = styled.div<{ marginBottom?: string }>`
   margin-bottom: ${(props) => props.marginBottom};
 `;
 
-const InlineContent = styled.div`
-  display: inline-flex;
-  gap: 1.56rem;
-  //   gap: 5rem;
-  //   justify-content: center;
-  //   align-items: center;
-  //   width: 90%;
-  //   height: 100%;
-  //   margin: 6rem auto 0 auto; // 임시로
-`;
-
-const RadialChartBox = styled.div`
+const ChartBox = styled.div`
   display: flex;
   justify-content: center;
   gap: 8rem;
