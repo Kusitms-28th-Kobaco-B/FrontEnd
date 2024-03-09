@@ -48,28 +48,39 @@ const CopyMaker = () => {
   // 키워드 input이 변경될 때마다 업데이트
   const keywordChange = (e: any) => {
     setInputValue(e.target.value);
+    setValues({
+      ...values,
+      keyword: keywords,
+    });
   };
   // 엔터를 누르면 키워드 배열에 값 추가 & input 초기화
   // e.nativeEvent.isComposing == false: onKeyDown 한글 오류 해결
   const keywordEnter = (e: any) => {
     if (e.key === "Enter" && e.nativeEvent.isComposing === false) {
       e.preventDefault();
-      setKeywords((prevKeywords) => [...prevKeywords, inputValue]);
-      setInputValue("");
-      setValues({
-        ...values,
-        keyword: keywords,
+      setKeywords((prevKeywords) => {
+        const updatedKeywords = [...prevKeywords, inputValue];
+        setValues({
+          ...values,
+          keyword: updatedKeywords,
+        });
+        return updatedKeywords;
       });
+      setInputValue("");
+      setInputValue("");
     }
   };
   // 키워드 배열에서 삭제
   const removeKeyword = (indexToRemove: number) => {
-    setKeywords((prevKeywords) =>
-      prevKeywords.filter((_, index) => index !== indexToRemove)
-    );
-    setValues({
-      ...values,
-      keyword: keywords,
+    setKeywords((prevKeywords) => {
+      const updatedKeywords = prevKeywords.filter(
+        (_, index) => index !== indexToRemove
+      );
+      setValues({
+        ...values,
+        keyword: updatedKeywords,
+      });
+      return updatedKeywords;
     });
   };
 
@@ -86,6 +97,11 @@ const CopyMaker = () => {
     keyword: [], //키워드
     tone: "", // 톤앤매너
   });
+
+  useEffect(() => {
+    const isFull = Object.values(values).every((value) => value !== "");
+    setCanSubmit(isFull);
+  }, [values]);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -196,7 +212,6 @@ const CopyMaker = () => {
         <Contents focus={focused} opt={"keyword"}>
           키워드
           <InputContent
-            //required
             type="text"
             name="keyword"
             placeholder="예) 저당, 동물성크림"
