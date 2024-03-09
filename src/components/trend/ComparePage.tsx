@@ -1,7 +1,6 @@
 "use client";
 
 import styled from "styled-components";
-import { LineChart } from "./LineChart";
 import TrendSearch from "./PeopleSearch";
 import { useEffect, useState } from "react";
 import TrendTop from "./TrendTop";
@@ -12,6 +11,7 @@ import Image from "next/image";
 import { infoData, relatedContentCompareData } from "@/lib/trend/trendData";
 import RelatedContents from "./RelatedContents";
 import CompareTop from "./CompareTop";
+import { MultiLineChart } from "./MultiLineChart";
 
 const ComparePage = () => {
   const [searchWord, setSearchWord] = useState("");
@@ -70,7 +70,7 @@ const ComparePage = () => {
               <Title>검색량 추이</Title>
               <ToggleButton items={["일별", "월별", "주별"]} />
             </TitleBox>
-            <LineChart />
+            <MultiLineChart />
           </ContentWrapper>
 
           <ContentWrapper width="87.5rem">
