@@ -61,8 +61,8 @@ const ShoppingList = () => {
           <Image
             src={v.img}
             alt={`shoppingItem-${i}`}
-            width={140}
-            height={140}
+            width={130}
+            height={130}
           />
           <TextWrapper>
             <BoldText>{v.title}</BoldText>
@@ -85,7 +85,7 @@ export default ShoppingList;
 
 const BoxContents = styled.div`
   width: 100%;
-  height: 30rem;
+  height: 25rem;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
@@ -137,7 +137,7 @@ const Tag = styled.div`
   border-radius: 6.25rem;
   background: ${colors.grey0};
   margin-right: 0.62rem;
-  margin-top: 1.2rem;
+  margin-top: 0.75rem;
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 500;

@@ -195,7 +195,7 @@ export function LineChart() {
 
   return (
     <ChartWrapper>
-      <Line width="1200" height="500" data={data()} options={options} />
+      <Line width="1200" height="400" data={data()} options={options} />
     </ChartWrapper>
   );
 }
