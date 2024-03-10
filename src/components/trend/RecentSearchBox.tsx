@@ -2,10 +2,7 @@ import { styled } from "styled-components";
 import RecentSearchContent from "./RecentSearchContent";
 
 interface RecentSearchBoxProps {
-  data: {
-    id: number;
-    name: string;
-  }[];
+  data: string[];
 }
 
 const RecentSearchBox = (props: RecentSearchBoxProps) => {
@@ -13,8 +10,8 @@ const RecentSearchBox = (props: RecentSearchBoxProps) => {
 
   return (
     <RecentSearchBoxStyle>
-      {data.map((recentSearch) => (
-        <RecentSearchContent key={recentSearch.id} name={recentSearch.name} />
+      {data.map((recentSearch: string) => (
+        <RecentSearchContent name={recentSearch} />
       ))}
     </RecentSearchBoxStyle>
   );

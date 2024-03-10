@@ -11,12 +11,14 @@ import TrendTop from "./TrendTop";
 import ToggleButton from "../common/ToggleButton";
 import RelatedRankChange from "./RelatedRankChange";
 import RecentSearchBox from "./RecentSearchBox";
-import { recentSearchData } from "@/lib/trend/trendData";
 import ShoppingList from "./ShoppingList";
 import Image from "next/image";
+import { useRecoilState } from "recoil";
+import { itemTrendState } from "@/context/recentSearch";
 
 const ItemPage = () => {
   const [searchName, setSearchName] = useState("");
+  const [itemTrend, setItemTrend] = useRecoilState(itemTrendState);
 
   return (
     <Layout>
@@ -28,7 +30,7 @@ const ItemPage = () => {
           src="/trend/itemAnalysis.png"
           setSearchName={setSearchName}
         />
-        <RecentSearchBox data={recentSearchData} />
+        <RecentSearchBox data={itemTrend} />
       </TrendSearchBox>
 
       {searchName !== "" && (
