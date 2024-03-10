@@ -32,10 +32,22 @@ export default function ContentBlock(props: ContentBlockProps) {
         delay: 0,
       },
     },
+    offscreen: {
+      y: +50,
+      opacity: 0,
+    },
+    onscreen: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.8,
+        delay: 0,
+      },
+    },
   };
 
   return (
-    <Layout>
+    <Layout initial="offscreen" whileInView="onscreen" variants={Variants}>
       <Title>{title}</Title>
       <Description>{description}</Description>
       <CardBlock>
@@ -63,7 +75,7 @@ export default function ContentBlock(props: ContentBlockProps) {
     </Layout>
   );
 }
-const Layout = styled.div`
+const Layout = styled(motion.div)`
   display: flex;
   flex-direction: column;
   width: 100%;
