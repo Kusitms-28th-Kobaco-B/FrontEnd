@@ -12,6 +12,7 @@ import Image from "next/image";
 
 const CopyGalleryPage = async () => {
   const [searchName, setSearchName] = useState("");
+
   return (
     <Layout>
       <AdCopySearch setSearchName={setSearchName} />

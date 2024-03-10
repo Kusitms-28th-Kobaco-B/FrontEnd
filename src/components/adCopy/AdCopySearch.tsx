@@ -3,9 +3,12 @@
 import styled from "styled-components";
 import Image from "next/image";
 import { recentSearchData } from "@/lib/trend/trendData";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RecentSearchContent from "../trend/RecentSearchContent";
 import { colors } from "@/styles/theme";
+import { useRecoilState } from "recoil";
+import { adCopyState } from "@/context/recentSearch";
+import RecentSearchBox from "../trend/RecentSearchBox";
 
 interface AdCopySearchProps {
   setSearchName: (name: string) => void;
@@ -14,10 +17,24 @@ interface AdCopySearchProps {
 const AdCopySearch = (props: AdCopySearchProps) => {
   const [name, setName] = useState("");
   const { setSearchName } = props;
+  const [adCopy, setAdCopy] = useRecoilState(adCopyState);
+
+  useEffect(() => {
+    if (adCopy.length > 4) {
+      setAdCopy((prev: string[]) => prev.slice(1));
+    }
+  }, [adCopy]);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && event.nativeEvent.isComposing === false) {
       setSearchName(name);
+      setAdCopy((prev: string[]) => {
+        const updatedTrend = [name, ...prev];
+        if (updatedTrend.length > 4) {
+          return updatedTrend.slice(0, 4);
+        }
+        return updatedTrend;
+      });
       setName("");
     }
   };
@@ -37,12 +54,7 @@ const AdCopySearch = (props: AdCopySearchProps) => {
           onKeyDown={handleKeyDown}
         />
       </SearchBarBox>
-
-      <RecentSearchBox>
-        {recentSearchData.map((recentSearch) => (
-          <RecentSearchContent key={recentSearch.id} name={recentSearch.name} />
-        ))}
-      </RecentSearchBox>
+      <RecentSearchBox data={adCopy} />
     </Layout>
   );
 };
@@ -102,12 +114,4 @@ const SearchBar = styled.input`
   border-radius: 100px;
   border: none;
   color: ${({ theme }) => theme.colors.white};
-`;
-
-const RecentSearchBox = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: start;
-  gap: 0.5rem;
-  margin: 1.5rem 0 0 2rem;
 `;
