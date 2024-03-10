@@ -14,3 +14,9 @@ export const itemTrendState = atom({
   default: [],
   effects: [persistAtom],
 });
+
+export const adCopyState = atom({
+  key: "adCopy",
+  default: [],
+  effects: [persistAtom],
+});
