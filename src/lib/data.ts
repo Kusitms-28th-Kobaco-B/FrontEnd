@@ -107,3 +107,46 @@ export const storyBoardData = [
     },
   ],
 ];
+
+export const genderOption = ["전체", "남성", "여성"];
+export const genderENUM = <string[]>["ALL", "MALE", "FEMALE"];
+export const ageOption = [
+  "전체",
+  "0~9세",
+  "10~19세",
+  "20~29세",
+  "30~39세",
+  "40~49세",
+  "50~59세",
+  "60세 이상",
+];
+export const ageENUM = [
+  "ALL",
+  "ZERO",
+  "TEN",
+  "TWENTY",
+  "THIRTY",
+  "FORTY",
+  "FIFTY",
+  "SIXTY",
+];
+export const toneOption = [
+  "기본형",
+  "언어유희형",
+  "행동촉구형",
+  "리뷰형",
+  "경고형",
+  "감정호소형",
+  "문제제기형",
+  "질문형",
+];
+export const toneENUM = [
+  "DEFAULT",
+  "WORDPLAY",
+  "ACTION",
+  "REVIEW",
+  "WARNING",
+  "EMOTIONAL",
+  "PROBLEM",
+  "QUESTION",
+];

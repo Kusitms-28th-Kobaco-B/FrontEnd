@@ -4,56 +4,67 @@ import styled from "styled-components";
 import Image from "next/image";
 import { Button } from "../common/ButtonStyle";
 import { colors } from "@/styles/theme";
+import { AnimatePresence } from "framer-motion";
 
 const IntroModal = (props: any) => {
   // 전달받은 state 함수
   const { clickModal } = props;
 
   return (
-    // 뒷배경을 클릭하면 모달을 나갈 수 있게 해야하므로 뒷 배경 onClick에 state함수를 넣는다.
-    <SearchModalBox onClick={clickModal}>
-      <SearchModalContent
-        width="37.5rem"
-        height="22rem"
-        onClick={(e) => e.stopPropagation()}
+    <AnimatePresence>
+      {/* 뒷배경을 클릭하면 모달을 나갈 수 있게 해야하므로 뒷 배경 onClick에 state함수를 넣는다. */}
+      <SearchModalBox
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={clickModal}
       >
-        <ModalContent>
-          <CloseButton onClick={clickModal}>
-            <Image src="/main/Cross.svg" alt="close" width={30} height={30} />
-          </CloseButton>
-          <Title>광고 제작이 처음이신가요?</Title>
-          <SubTitle>
-            {
-              "광고는 아래와 같은 순서로 만들어져요.\n광고 아카이브를 통해 참고영상부터 빠르게 찾아보세요!"
-            }
-          </SubTitle>
-          <BottomButton background={colors.main} text={colors.white}>
-            광고 아카이브
-            <Image
-              src="/main/arrow-right.svg"
-              alt="right-arrow"
-              width={24}
-              height={24}
-            />
-            트렌드 분석
-            <Image
-              src="/main/arrow-right.svg"
-              alt="right-arrow"
-              width={18}
-              height={18}
-            />
-            광고카피 제작
-            <Image
-              src="/main/arrow-right.svg"
-              alt="right-arrow"
-              width={18}
-              height={18}
-            />
-            스토리보드 제작
-          </BottomButton>
-        </ModalContent>
-      </SearchModalContent>
-    </SearchModalBox>
+        <SearchModalContent
+          width="37.5rem"
+          height="22rem"
+          onClick={(e) => e.stopPropagation()}
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.8, opacity: 0 }}
+        >
+          <ModalContent>
+            <CloseButton onClick={clickModal}>
+              <Image src="/main/Cross.svg" alt="close" width={30} height={30} />
+            </CloseButton>
+            <Title>광고 제작이 처음이신가요?</Title>
+            <SubTitle>
+              {
+                "광고는 아래와 같은 순서로 만들어져요.\n광고 아카이브를 통해 참고영상부터 빠르게 찾아보세요!"
+              }
+            </SubTitle>
+            <BottomButton background={colors.main} text={colors.white}>
+              광고 아카이브
+              <Image
+                src="/main/arrow-right.svg"
+                alt="right-arrow"
+                width={24}
+                height={24}
+              />
+              트렌드 분석
+              <Image
+                src="/main/arrow-right.svg"
+                alt="right-arrow"
+                width={18}
+                height={18}
+              />
+              광고카피 제작
+              <Image
+                src="/main/arrow-right.svg"
+                alt="right-arrow"
+                width={18}
+                height={18}
+              />
+              스토리보드 제작
+            </BottomButton>
+          </ModalContent>
+        </SearchModalContent>
+      </SearchModalBox>
+    </AnimatePresence>
   );
 };
 

@@ -1,19 +1,36 @@
+import { ageENUM, ageOption, genderENUM, genderOption } from "@/lib/data";
 import { colors } from "@/styles/theme";
 import Image from "next/image";
 import React, { useState } from "react";
 import styled from "styled-components";
 
+interface ValuesProps {
+  service: string; // 서비스 선택: 헤드/바디
+  projectName: string; // 프로젝트명
+  productName: string; // 상품/서비스명
+  targetGender: string; // 성별
+  targetAge: string; // 연령대
+  keyword: string[]; //키워드
+  tone: string; // 톤앤매너
+}
 interface ToggleProps {
   optionData: string[];
   placeholder: string;
   currentValue: string;
   setCurrentValue: React.Dispatch<React.SetStateAction<string>>;
+  contents: string;
+  values: ValuesProps;
+  setValues: React.Dispatch<React.SetStateAction<ValuesProps>>;
 }
+
 export const Toggle: React.FC<ToggleProps> = ({
   optionData,
   placeholder,
   currentValue,
   setCurrentValue,
+  contents,
+  values,
+  setValues,
 }) => {
   //const [currentValue, setCurrentValue] = useState(placeholder);
   const [showOptions, setShowOptions] = useState(false);
@@ -26,9 +43,22 @@ export const Toggle: React.FC<ToggleProps> = ({
     setShowOptions(false);
   };
 
-  const handleOnChangeSelectValue = (e: any) => {
+  const handleOnChangeSelectGender = (e: any) => {
     setCurrentValue(e.target.getAttribute("value"));
     setShowOptions(false);
+    setValues({
+      ...values,
+      [contents]:
+        genderENUM[genderOption.indexOf(e.target.getAttribute("value"))],
+    });
+  };
+  const handleOnChangeSelectAge = (e: any) => {
+    setCurrentValue(e.target.getAttribute("value"));
+    setShowOptions(false);
+    setValues({
+      ...values,
+      [contents]: ageENUM[ageOption.indexOf(e.target.getAttribute("value"))],
+    });
   };
 
   return (
@@ -51,7 +81,15 @@ export const Toggle: React.FC<ToggleProps> = ({
       </Label>
       <SelectOptions show={showOptions} optionData={optionData}>
         {optionData.map((v, i) => (
-          <Option key={i} value={v} onClick={handleOnChangeSelectValue}>
+          <Option
+            key={i}
+            value={v}
+            onClick={
+              contents == "targetGender"
+                ? handleOnChangeSelectGender
+                : handleOnChangeSelectAge
+            }
+          >
             {v}
           </Option>
         ))}
