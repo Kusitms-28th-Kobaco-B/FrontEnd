@@ -37,7 +37,7 @@ const ItemPage = () => {
         <>
           <TrendTop />
           <SearchText>
-            <span>"{searchName}"</span>에 대한 인물 분석 결과입니다.
+            <span>"{searchName}"</span>에 대한 아이템 분석 결과입니다.
           </SearchText>
 
           <ContentWrapper width="77.5rem">
