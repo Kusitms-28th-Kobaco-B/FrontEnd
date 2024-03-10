@@ -4,55 +4,43 @@ import styled from "styled-components";
 import { Button } from "../common/ButtonStyle";
 import { colors } from "@/styles/theme";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import Link from "next/link";
+import { editCopy, getCopy } from "@/lib/action";
+import { toneENUM, toneOption } from "@/lib/data";
 
 interface CopyItem {
-  category: string;
+  advertisementCopyId: number;
+  service: string;
   tone: string;
-  copyText: string;
+  message: string;
 }
 
-const data = [
-  {
-    category: "헤드카피",
-    tone: "언어유희형",
-    copyText: "내가 사는 지역을 더 살기 좋게, 더 매력 있게",
-  },
-  {
-    category: "헤드카피",
-    tone: "언어유희형",
-    copyText: "내가 사는 지역을 더 살기 좋게, 더 매력 있게2",
-  },
-  {
-    category: "헤드카피",
-    tone: "언어유희형",
-    copyText: "내가 사는 지역을 더 살기 좋게, 더 매력 있게3",
-  },
-  {
-    category: "헤드카피",
-    tone: "언어유희형",
-    copyText: "내가 사는 지역을 더 살기 좋게, 더 매력 있게4",
-  },
-  {
-    category: "헤드카피",
-    tone: "언어유희형",
-    copyText: "내가 사는 지역을 더 살기 좋게, 더 매력 있게5",
-  },
-  {
-    category: "헤드카피",
-    tone: "언어유희형",
-    copyText: "내가 사는 지역을 더 살기 좋게, 더 매력 있게6",
-  },
-];
-const CopyResult = () => {
+interface resultProps {
+  refreshOption: boolean;
+}
+const CopyResult = (props: resultProps) => {
   const size = useWindowSize();
+  const [copy, setCopy] = useState<CopyItem[]>();
+  const fetchCopyList = async () => {
+    getCopy().then(async (result) => {
+      await setCopy(result);
+      console.log(result);
+      setEditingStates(
+        result.map((data: any) => ({ isEditing: false, text: data.message }))
+      );
+    });
+  };
+  useEffect(() => {
+    fetchCopyList();
+  }, [props.refreshOption]);
 
+  // 전체인지 최근 저장인지
   const [categoryIndex, setCategoryIndex] = useState(0);
 
   const [editingStates, setEditingStates] = useState(
-    data.map((data) => ({ isEditing: false, text: data.copyText }))
+    copy?.map((data) => ({ isEditing: false, text: data.message }))
   );
 
   const [currentSave, setCurrentSave] = useState<CopyItem[]>([]);
@@ -60,7 +48,7 @@ const CopyResult = () => {
 
   const handleEditClick = (index: number) => {
     setEditingStates((prevStates) =>
-      prevStates.map((state, i) =>
+      prevStates?.map((state, i) =>
         i === index ? { ...state, isEditing: !state.isEditing } : state
       )
     );
@@ -68,26 +56,47 @@ const CopyResult = () => {
 
   const handleCancelClick = (index: number) => {
     setEditingStates((prevStates) =>
-      prevStates.map((state, i) =>
+      prevStates?.map((state, i) =>
         i === index ? { ...state, isEditing: false } : state
       )
     );
   };
 
-  const handleSaveClick = (index: number) => {
-    console.log("Text saved:", editingStates[index].text);
-    setEditingStates((prevStates) =>
-      prevStates.map((state, i) =>
-        i === index ? { ...state, isEditing: false } : state
-      )
-    );
-    const newData = [...data];
-    newData[index].copyText = editingStates[index].text;
+  const handleSaveClick = async (index: number, advertisementId: number) => {
+    if (editingStates && editingStates[index]) {
+      console.log("Index:", index);
+      console.log("Editing States:", editingStates);
+      console.log("Editing State Text:", editingStates[index]?.text);
+      console.log("Text saved:", editingStates[index].text);
+      if (copy && copy[index] && copy[index].advertisementCopyId) {
+        console.log("id:", copy[index].advertisementCopyId);
+        console.log("text:", editingStates[index].text);
+        await editCopy(
+          copy[index].advertisementCopyId,
+          editingStates[index].text
+        );
+        fetchCopyList();
+      }
+      await setEditingStates((prevStates) =>
+        prevStates?.map((state, i) =>
+          i === index ? { ...state, isEditing: false } : state
+        )
+      );
+
+      // if (copy && copy[index] && copy[index].advertisementCopyId) {
+      //   editCopy(copy[index].advertisementCopyId, editingStates[index].text);
+      // }
+    }
+    // const [newData, setNewData] = useState<CopyItem[]>([...(copy ?? [])]);
+    // if (editingStates && editingStates[index]) {
+    //   newData[index].message = editingStates[index].text;
+    // }
+    //newData[index].message = editingStates?.[index].text;
   };
 
   const handleTextChange = (index: number, newText: string) => {
     setEditingStates((prevStates) =>
-      prevStates.map((state, i) =>
+      prevStates?.map((state, i) =>
         i === index ? { ...state, text: newText } : state
       )
     );
@@ -100,11 +109,14 @@ const CopyResult = () => {
         ? prevItems.filter((item) => item !== index)
         : [...prevItems, index]
     );
-    setCurrentSave((prevSave) =>
-      prevSave.some((item) => item === data[index])
-        ? prevSave.filter((item) => item !== data[index])
-        : [...prevSave, data[index]]
-    );
+    setCurrentSave((prevSave) => {
+      if (copy && copy[index] !== undefined) {
+        return prevSave.some((item) => item === copy[index])
+          ? prevSave.filter((item) => item !== copy[index])
+          : [...prevSave, copy[index]];
+      }
+      return prevSave;
+    });
   };
 
   return (
@@ -138,26 +150,37 @@ const CopyResult = () => {
       </BoxHeader>
       {categoryIndex == 0 ? (
         <BoxContents style={{ height: size.height * 0.65 }}>
-          {data.map((v, i) => (
+          {copy?.map((v, i) => (
             <CopyWrapper key={i}>
               <TagWrapper>
-                <Tag color={colors.main} background={colors.mainLight6}>
-                  {v.category}
+                <Tag
+                  color={v.service == "HEAD" ? colors.main : colors.secondary}
+                  background={
+                    v.service == "HEAD"
+                      ? colors.mainLight6
+                      : colors.secondaryLight3
+                  }
+                >
+                  {v.service == "HEAD" ? "헤드카피" : "바디카피"}
                 </Tag>
                 <Tag color={colors.grey1} background={colors.grey5}>
-                  {v.tone}
+                  {toneOption[toneENUM.indexOf(v.tone)]}
                 </Tag>
               </TagWrapper>
-              {editingStates[i].isEditing ? (
-                <EditBox
-                  value={editingStates[i].text}
-                  onChange={(e) => handleTextChange(i, e.target.value)}
-                />
-              ) : (
-                <>‘{v.copyText}’</>
-              )}
+              <Message>
+                {editingStates?.[i].isEditing ? (
+                  <div>
+                    <EditBox
+                      value={editingStates[i].text}
+                      onChange={(e) => handleTextChange(i, e.target.value)}
+                    />
+                  </div>
+                ) : (
+                  <div>‘{v.message}’</div>
+                )}
+              </Message>
               <EditWrapper>
-                {editingStates[i].isEditing ? (
+                {editingStates?.[i].isEditing ? (
                   <>
                     <BottomText
                       onClick={() => handleCancelClick(i)}
@@ -166,7 +189,7 @@ const CopyResult = () => {
                       취소
                     </BottomText>
                     <BottomText
-                      onClick={() => handleSaveClick(i)}
+                      onClick={() => handleSaveClick(i, v.advertisementCopyId)}
                       color={colors.main}
                     >
                       완료
@@ -205,23 +228,34 @@ const CopyResult = () => {
           {currentSave.map((v, i) => (
             <CopyWrapper key={i}>
               <TagWrapper>
-                <Tag color={colors.main} background={colors.mainLight6}>
-                  {v.category}
+                <Tag
+                  color={v.service == "HEAD" ? colors.main : colors.secondary}
+                  background={
+                    v.service == "HEAD"
+                      ? colors.mainLight6
+                      : colors.secondaryLight3
+                  }
+                >
+                  {v.service == "HEAD" ? "헤드카피" : "바디카피"}
                 </Tag>
                 <Tag color={colors.grey1} background={colors.grey5}>
-                  {v.tone}
+                  {toneOption[toneENUM.indexOf(v.tone)]}
                 </Tag>
               </TagWrapper>
-              {editingStates[i].isEditing ? (
-                <EditBox
-                  value={editingStates[i].text}
-                  onChange={(e) => handleTextChange(i, e.target.value)}
-                />
-              ) : (
-                <>‘{v.copyText}’</>
-              )}
+              <Message>
+                {editingStates?.[i].isEditing ? (
+                  <div>
+                    <EditBox
+                      value={editingStates?.[i].text}
+                      onChange={(e) => handleTextChange(i, e.target.value)}
+                    />
+                  </div>
+                ) : (
+                  <div>‘{v.message}’</div>
+                )}
+              </Message>
               <EditWrapper>
-                {editingStates[i].isEditing ? (
+                {editingStates?.[i].isEditing ? (
                   <>
                     <BottomText
                       onClick={() => handleCancelClick(i)}
@@ -230,7 +264,7 @@ const CopyResult = () => {
                       취소
                     </BottomText>
                     <BottomText
-                      onClick={() => handleSaveClick(i)}
+                      onClick={() => handleSaveClick(i, v.advertisementCopyId)}
                       color={colors.main}
                     >
                       완료
@@ -264,13 +298,15 @@ const CopyResult = () => {
             </CopyWrapper>
           ))}
           <MoreRegion>
-            <Button
-              text={"#b4b4b4"}
-              background={"#252525"}
-              style={{ height: "2.75rem", border: "none" }}
-            >
-              더보기
-            </Button>
+            <Link href="/user">
+              <Button
+                text={"#b4b4b4"}
+                background={"#252525"}
+                style={{ height: "2.75rem", border: "none" }}
+              >
+                더보기
+              </Button>
+            </Link>
           </MoreRegion>
         </BoxContents>
       )}
@@ -310,11 +346,11 @@ const BoxContents = styled.div`
   width: 100%;
   display: inline-flex;
   flex-wrap: wrap;
+  align-content: flex-start;
   overflow-y: auto;
   justify-content: space-between;
   margin-top: 1.5rem;
   padding-right: 0.875rem;
-
   &::-webkit-scrollbar-track {
     margin: 1rem;
     border-radius: 10px;
@@ -348,7 +384,6 @@ const CopyWrapper = styled.div`
 const TagWrapper = styled.div`
   display: inline-flex;
   gap: 0.5rem;
-  margin-bottom: 2.5rem;
 `;
 const Tag = styled.div<{ color: string; background: string }>`
   padding: 0.375rem 0.875rem;
@@ -368,7 +403,6 @@ const EditWrapper = styled.div`
   display: inline-flex;
   justify-content: end;
   gap: 0.62rem;
-  margin-top: 2.75rem;
 `;
 const BottomText = styled.div<{ color: string }>`
   color: ${(props) => props.color};
@@ -380,7 +414,7 @@ const BottomText = styled.div<{ color: string }>`
 `;
 const EditBox = styled.textarea`
   resize: none;
-  height: 1.375rem;
+  height: 4.125rem;
   background-color: ${colors.grey0};
   border: none;
   outline: none;
@@ -396,4 +430,8 @@ const MoreRegion = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+`;
+const Message = styled.div`
+  height: 4.125rem;
+  line-height: 4.125rem;
 `;

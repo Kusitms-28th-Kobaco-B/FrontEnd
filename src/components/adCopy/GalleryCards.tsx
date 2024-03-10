@@ -4,54 +4,64 @@ import styled from "styled-components";
 const GalleryCards = () => {
   const data = [
     {
-      category: "헤드카피",
+      advertisementCopyId: 0,
+      service: "헤드카피",
       tone: "언어유희형",
-      copyText: "내가 사는 지역을 더 살기 좋게, 더 매력 있게",
+      message: "내가 사는 지역을 더 살기 좋게, 더 매력 있게",
     },
     {
-      category: "헤드카피",
+      advertisementCopyId: 0,
+      service: "헤드카피",
       tone: "언어유희형",
-      copyText: "내가 사는 지역을 더 살기 좋게, 더 매력 있게2",
+      message: "내가 사는 지역을 더 살기 좋게, 더 매력 있게2",
     },
     {
-      category: "헤드카피",
+      advertisementCopyId: 0,
+      service: "헤드카피",
       tone: "언어유희형",
-      copyText: "내가 사는 지역을 더 살기 좋게, 더 매력 있게3",
+      message: "내가 사는 지역을 더 살기 좋게, 더 매력 있게3",
     },
     {
-      category: "헤드카피",
+      advertisementCopyId: 0,
+      service: "헤드카피",
       tone: "언어유희형",
-      copyText: "내가 사는 지역을 더 살기 좋게, 더 매력 있게4",
+      message: "내가 사는 지역을 더 살기 좋게, 더 매력 있게4",
     },
     {
-      category: "헤드카피",
+      advertisementCopyId: 0,
+      service: "헤드카피",
       tone: "언어유희형",
-      copyText: "내가 사는 지역을 더 살기 좋게, 더 매력 있게5",
+      message: "내가 사는 지역을 더 살기 좋게, 더 매력 있게5",
     },
     {
-      category: "헤드카피",
+      advertisementCopyId: 0,
+      service: "헤드카피",
       tone: "언어유희형",
-      copyText: "내가 사는 지역을 더 살기 좋게, 더 매력 있게6",
+      message: "내가 사는 지역을 더 살기 좋게, 더 매력 있게6",
     },
     {
-      category: "헤드카피",
+      advertisementCopyId: 0,
+      service: "헤드카피",
       tone: "언어유희형",
-      copyText: "내가 사는 지역을 더 살기 좋게, 더 매력 있게3",
+      message: "내가 사는 지역을 더 살기 좋게, 더 매력 있게3",
     },
     {
-      category: "헤드카피",
+      advertisementCopyId: 0,
+      service: "헤드카피",
       tone: "언어유희형",
-      copyText: "내가 사는 지역을 더 살기 좋게, 더 매력 있게4",
+      message: "내가 사는 지역을 더 살기 좋게, 더 매력 있게4",
     },
     {
-      category: "헤드카피",
+      advertisementCopyId: 0,
+      service: "헤드카피",
       tone: "언어유희형",
-      copyText: "내가 사는 지역을 더 살기 좋게, 더 매력 있게5",
+      message: "내가 사는 지역을 더 살기 좋게, 더 매력 있게5",
     },
     {
-      category: "헤드카피",
+      advertisementCopyId: 0,
+      service: "헤드카피",
       tone: "언어유희형",
-      copyText: "내가 사는 지역을 더 살기 좋게, 더 매력 있게6",
+      message: "내가 사는 지역을 더 살기 좋게, 더 매력 있게6",
     },
   ];
 
@@ -61,13 +71,13 @@ const GalleryCards = () => {
         <CopyWrapper key={i}>
           <TagBox>
             <Tag color={colors.main} background={colors.mainLight6}>
-              {v.category}
+              {v.service}
             </Tag>
             <Tag color={colors.grey1} background={colors.grey5}>
               {v.tone}
             </Tag>
           </TagBox>
-          {v.copyText}
+          {v.message}
           <EditWrapper>조회 1900</EditWrapper>
         </CopyWrapper>
       ))}

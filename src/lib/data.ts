@@ -130,6 +130,16 @@ export const ageENUM = [
   "FIFTY",
   "SIXTY",
 ];
+export const toneOption = [
+  "기본형",
+  "언어유희형",
+  "행동촉구형",
+  "리뷰형",
+  "경고형",
+  "감정호소형",
+  "문제제기형",
+  "질문형",
+];
 export const toneENUM = [
   "DEFAULT",
   "WORDPLAY",

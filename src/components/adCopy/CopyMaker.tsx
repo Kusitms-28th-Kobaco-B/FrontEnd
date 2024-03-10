@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { Toggle } from "../common/Toggle";
 import Image from "next/image";
 import { ageOption, genderOption } from "@/lib/data";
+import { createCopy } from "@/lib/action";
 
 interface ValuesProps {
   service: string; // 서비스 선택: 헤드/바디
@@ -18,7 +19,12 @@ interface ValuesProps {
   tone: string; // 톤앤매너
 }
 
-const CopyMaker = () => {
+interface CopyProps {
+  submitFunction: React.Dispatch<React.SetStateAction<boolean>>;
+  refreshOption: boolean;
+}
+
+const CopyMaker = (props: CopyProps) => {
   const size = useWindowSize();
 
   // 생성 버튼 disabled 인지 아닌지
@@ -113,6 +119,14 @@ const CopyMaker = () => {
     }
   };
 
+  const postData = async () => {
+    alert(`${values.service}`);
+    await createCopy(values).then((res) => {
+      console.log(res);
+    });
+    props.submitFunction(!props.refreshOption);
+  };
+
   return (
     <BoxWrapper style={{ height: size.height * 0.8 }}>
       <BoxHead>
@@ -138,7 +152,7 @@ const CopyMaker = () => {
                 categoryClick("HEAD");
                 setValues({
                   ...values,
-                  service: "HEAD",
+                  ["service"]: "HEAD",
                 });
               }}
             >
@@ -152,7 +166,7 @@ const CopyMaker = () => {
                 categoryClick("BODY");
                 setValues({
                   ...values,
-                  service: "BODY",
+                  ["service"]: "BODY",
                 });
               }}
             >
@@ -368,11 +382,7 @@ const CopyMaker = () => {
         disabled={!canSubmit}
         type="submit"
         form="createCopy"
-        onClick={() =>
-          alert(
-            `${values.service} ${values.projectName} ${values.productName} ${values.targetGender} ${values.targetAge} ${values.keyword} ${values.tone}`
-          )
-        }
+        onClick={postData}
       >
         광고카피생성
       </SubmitButton>
