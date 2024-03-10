@@ -2,7 +2,9 @@
 
 import styled from "styled-components";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+import { itemTrendState, peopleTrendState } from "@/context/recentSearch";
 
 interface TrendPeopleSearchProps {
   title: string;
@@ -16,9 +18,38 @@ const TrendSearch = (props: TrendPeopleSearchProps) => {
   const [name, setName] = useState("");
   const { title, description, placeholder, src, setSearchName } = props;
 
+  const [peopleTrend, setPeopleTrend] = useRecoilState(peopleTrendState);
+  const [itemTrend, setItemTrend] = useRecoilState(itemTrendState);
+
+  useEffect(() => {
+    if (peopleTrend.length > 4) {
+      setPeopleTrend((prev: string[]) => prev.slice(1));
+    }
+    if (itemTrend.length > 4) {
+      setItemTrend((prev: string[]) => prev.slice(1));
+    }
+  }, [peopleTrend, itemTrend]);
+
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter" && event.nativeEvent.isComposing === false) {
+    if (event.key === "Enter" && event.nativeEvent.isComposing === false && name !== "") {
       setSearchName(name);
+      if (title === "인물") {
+        setPeopleTrend((prev: string[]) => {
+          const updatedTrend = [name, ...prev];
+          if (updatedTrend.length > 4) {
+            return updatedTrend.slice(0, 4);
+          }
+          return updatedTrend;
+        });
+      } else if (title === "아이템") {
+        setItemTrend((prev: string[]) => {
+          const updatedTrend = [name, ...prev];
+          if (updatedTrend.length > 4) {
+            return updatedTrend.slice(0, 4);
+          }
+          return updatedTrend;
+        });
+      }
       setName("");
     }
   };

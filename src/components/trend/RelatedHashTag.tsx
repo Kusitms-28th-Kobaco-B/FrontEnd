@@ -45,7 +45,6 @@ const RelatedHashTag = () => {
         children: [],
       },
     ];
-
     networkSeries.dataFields.linkWith = "linkWith";
     networkSeries.dataFields.name = "name";
     networkSeries.dataFields.id = "name";
@@ -64,7 +63,10 @@ const RelatedHashTag = () => {
     networkSeries.manyBodyStrength = -5;
     networkSeries.links.template.strokeOpacity = 0;
 
-    // 컴포넌트가 언마운트될 때 차트를 정리
+    networkSeries.nodes.template.events.on("hit", () => {
+      window.location.href = "/trend/compare";
+    });
+
     return () => {
       chart.dispose();
     };
@@ -78,10 +80,4 @@ export default RelatedHashTag;
 const ChartWrapper = styled.div`
   display: flex;
   height: 22rem;
-`;
-
-const HashTagText = styled.div`
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-bottom: 2rem;
 `;

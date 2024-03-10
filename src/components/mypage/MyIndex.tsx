@@ -2,18 +2,22 @@
 
 import { useState } from "react";
 import { styled } from "styled-components";
+import Image from "next/image";
 
 const MyIndex = () => {
   const [selected, setSelected] = useState(1);
 
   return (
     <Layout>
-      <Index selected={selected === 1} onClick={() => setSelected(1)}>
-        마이 카피
-      </Index>
-      <Index selected={selected === 2} onClick={() => setSelected(2)}>
-        마이 스토리보드
-      </Index>
+      <IndexBox>
+        <Index selected={selected === 1} onClick={() => setSelected(1)}>
+          마이 카피
+        </Index>
+        <Index selected={selected === 2} onClick={() => setSelected(2)}>
+          마이 스토리보드
+        </Index>
+      </IndexBox>
+      <Image src="/user/user.svg" alt="user" width={30} height={30} />
     </Layout>
   );
 };
@@ -21,6 +25,13 @@ const MyIndex = () => {
 export default MyIndex;
 
 const Layout = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 2rem;
+`;
+
+const IndexBox = styled.div`
   display: flex;
   text-align: center;
   cursor: pointer;

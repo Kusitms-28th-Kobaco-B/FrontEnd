@@ -92,6 +92,7 @@ const ComparePage = () => {
             <ChartBox>
               <CompareRadialChart label="홈 인테리어" woman={56} man={44} />
               <CompareRadialChart label="샴푸" woman={30} man={70} />
+              <CompareRadialChart label="바디워시" woman={56} man={44} />
             </ChartBox>
           </ContentWrapper>
 
@@ -106,6 +107,11 @@ const ComparePage = () => {
               <CompareBarChart
                 label="샴푸"
                 color="#8796E9"
+                infoData={infoData}
+              />
+              <CompareBarChart
+                label="바디워시"
+                color="#CECECE"
                 infoData={infoData}
               />
             </ChartBox>
@@ -125,8 +131,8 @@ const ComparePage = () => {
               <Image
                 src="/trend/relatedWordCompare.svg"
                 alt="연관어 비교"
-                width={1000}
-                height={400}
+                width={1200}
+                height={500}
               />
             </ImageBox>
 
@@ -209,7 +215,7 @@ const Title = styled.div<{ marginBottom?: string }>`
 const ChartBox = styled.div`
   display: flex;
   justify-content: center;
-  gap: 8rem;
+  gap: 5rem;
 `;
 
 const ImageBox = styled.div`

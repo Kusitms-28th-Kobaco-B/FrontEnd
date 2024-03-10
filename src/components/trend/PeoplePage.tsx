@@ -14,9 +14,12 @@ import TrendTop from "./TrendTop";
 import ToggleButton from "../common/ToggleButton";
 import { recentSearchData, relatedContentData } from "@/lib/trend/trendData";
 import RecentSearchBox from "./RecentSearchBox";
+import { useRecoilState } from "recoil";
+import { peopleTrendState } from "@/context/recentSearch";
 
 const TrendPage = () => {
   const [searchName, setSearchName] = useState("");
+  const [peopleTrend, setPeopleTrend] = useRecoilState(peopleTrendState);
 
   return (
     <Layout>
@@ -29,7 +32,7 @@ const TrendPage = () => {
           src="/trend/peopleAnalysis.png"
           setSearchName={setSearchName}
         />
-        <RecentSearchBox data={recentSearchData} />
+        <RecentSearchBox data={peopleTrend} />
       </TrendSearchBox>
 
       {searchName !== "" && (
