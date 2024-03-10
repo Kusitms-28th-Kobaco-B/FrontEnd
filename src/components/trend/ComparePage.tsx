@@ -232,6 +232,7 @@ const Text = styled.div`
   color: ${({ theme }) => theme.colors.white};
   margin: 4rem 0 2rem 0;
 `;
+
 const TrendSearchBox = styled.div`
   display: flex;
   flex-direction: column;
