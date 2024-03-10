@@ -7,8 +7,10 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import Link from "next/link";
-import { editCopy, getCopy } from "@/lib/action";
+import { editCopy, getCopy, recentSavedCopy, saveCopy } from "@/lib/action";
 import { toneENUM, toneOption } from "@/lib/data";
+import { useRecoilState } from "recoil";
+import { createCopyState } from "@/context/recoilContext";
 
 interface CopyItem {
   advertisementCopyId: number;
@@ -17,11 +19,11 @@ interface CopyItem {
   message: string;
 }
 
-interface resultProps {
-  refreshOption: boolean;
-}
-const CopyResult = (props: resultProps) => {
+const CopyResult = () => {
   const size = useWindowSize();
+
+  const [created, setCreated] = useRecoilState(createCopyState);
+
   const [copy, setCopy] = useState<CopyItem[]>();
   const fetchCopyList = async () => {
     getCopy().then(async (result) => {
@@ -34,17 +36,22 @@ const CopyResult = (props: resultProps) => {
   };
   useEffect(() => {
     fetchCopyList();
-  }, [props.refreshOption]);
+  }, [created]);
+
+  useEffect(() => {
+    setCopy(undefined);
+    recentSavedCopy().then((result) => {
+      setCurrentSave(result);
+    });
+  }, []);
 
   // 전체인지 최근 저장인지
   const [categoryIndex, setCategoryIndex] = useState(0);
 
+  // 수정 함수
   const [editingStates, setEditingStates] = useState(
     copy?.map((data) => ({ isEditing: false, text: data.message }))
   );
-
-  const [currentSave, setCurrentSave] = useState<CopyItem[]>([]);
-  const [bookmarkedItems, setBookmarkedItems] = useState<number[]>([]);
 
   const handleEditClick = (index: number) => {
     setEditingStates((prevStates) =>
@@ -64,13 +71,7 @@ const CopyResult = (props: resultProps) => {
 
   const handleSaveClick = async (index: number, advertisementId: number) => {
     if (editingStates && editingStates[index]) {
-      console.log("Index:", index);
-      console.log("Editing States:", editingStates);
-      console.log("Editing State Text:", editingStates[index]?.text);
-      console.log("Text saved:", editingStates[index].text);
       if (copy && copy[index] && copy[index].advertisementCopyId) {
-        console.log("id:", copy[index].advertisementCopyId);
-        console.log("text:", editingStates[index].text);
         await editCopy(
           copy[index].advertisementCopyId,
           editingStates[index].text
@@ -82,16 +83,7 @@ const CopyResult = (props: resultProps) => {
           i === index ? { ...state, isEditing: false } : state
         )
       );
-
-      // if (copy && copy[index] && copy[index].advertisementCopyId) {
-      //   editCopy(copy[index].advertisementCopyId, editingStates[index].text);
-      // }
     }
-    // const [newData, setNewData] = useState<CopyItem[]>([...(copy ?? [])]);
-    // if (editingStates && editingStates[index]) {
-    //   newData[index].message = editingStates[index].text;
-    // }
-    //newData[index].message = editingStates?.[index].text;
   };
 
   const handleTextChange = (index: number, newText: string) => {
@@ -102,20 +94,14 @@ const CopyResult = (props: resultProps) => {
     );
   };
 
-  // 현재 북마크 취소는 순서대로 누른 경우만..!
-  const handleBookmarkClick = (index: number) => {
-    setBookmarkedItems((prevItems) =>
-      prevItems.includes(index)
-        ? prevItems.filter((item) => item !== index)
-        : [...prevItems, index]
-    );
-    setCurrentSave((prevSave) => {
-      if (copy && copy[index] !== undefined) {
-        return prevSave.some((item) => item === copy[index])
-          ? prevSave.filter((item) => item !== copy[index])
-          : [...prevSave, copy[index]];
-      }
-      return prevSave;
+  // 북마크 함수
+  const [currentSave, setCurrentSave] = useState<CopyItem[]>([]);
+
+  const handleBookmarkClick = (copyId: number) => {
+    saveCopy(copyId).then(() => {
+      recentSavedCopy().then((result) => {
+        setCurrentSave(result);
+      });
     });
   };
 
@@ -207,14 +193,18 @@ const CopyResult = (props: resultProps) => {
                     />
                     <Image
                       src={
-                        bookmarkedItems.includes(i)
+                        currentSave.some(
+                          (savedCopy) =>
+                            savedCopy.advertisementCopyId ===
+                            v.advertisementCopyId
+                        )
                           ? "/adCopy/bookmarkRed.svg"
                           : "/adCopy/bookmark.svg"
                       }
                       alt="save"
                       width={24}
                       height={24}
-                      onClick={() => handleBookmarkClick(i)}
+                      onClick={() => handleBookmarkClick(v.advertisementCopyId)}
                       style={{ cursor: "pointer" }}
                     />
                   </>
@@ -282,14 +272,18 @@ const CopyResult = (props: resultProps) => {
                     />
                     <Image
                       src={
-                        bookmarkedItems.includes(i)
+                        currentSave.some(
+                          (savedCopy) =>
+                            savedCopy.advertisementCopyId ===
+                            v.advertisementCopyId
+                        )
                           ? "/adCopy/bookmarkRed.svg"
                           : "/adCopy/bookmark.svg"
                       }
                       alt="save"
                       width={24}
                       height={24}
-                      onClick={() => handleBookmarkClick(i)}
+                      onClick={() => handleBookmarkClick(v.advertisementCopyId)}
                       style={{ cursor: "pointer" }}
                     />
                   </>
@@ -433,5 +427,7 @@ const MoreRegion = styled.div`
 `;
 const Message = styled.div`
   height: 4.125rem;
-  line-height: 4.125rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

@@ -4,16 +4,14 @@ import styled from "styled-components";
 import Category from "./Category";
 import CopyMaker from "./CopyMaker";
 import CopyResult from "./CopyResult";
-import { useState } from "react";
 
 const AdCopyPage = async () => {
-  const [creating, setCreating] = useState<boolean>(false);
   return (
     <Layout>
       <Category />
       <CopyContent>
-        <CopyMaker submitFunction={setCreating} refreshOption={creating} />
-        <CopyResult refreshOption={creating} />
+        <CopyMaker />
+        <CopyResult />
       </CopyContent>
     </Layout>
   );

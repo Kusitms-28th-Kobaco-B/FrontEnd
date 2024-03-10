@@ -15,9 +15,7 @@ export const createCopy = async (copy: ValuesProps) => {
   try {
     const memberId = 1;
     let API = `/api/v1/advertisement/copies/${memberId}`;
-    //console.log(copy);
-    const response = await kobacoAxios.post(API, {
-      data: copy,
+    const response = await kobacoAxios.post(API, copy, {
       params: memberId,
     });
   } catch (error) {
@@ -41,9 +39,37 @@ export const getCopy = async () => {
 export const editCopy = async (copyId: number, message: string) => {
   try {
     let API = `/api/v1/advertisement/copies/${copyId}`;
-    const response = await kobacoAxios.patch(API, {
-      body: message,
+    let data = { message: message };
+    const response = await kobacoAxios.patch(API, data, {
       params: copyId,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const saveCopy = async (copyId: number) => {
+  try {
+    const memberId = 1;
+    let API = `/api/v1/advertisement/copies/${memberId}/${copyId}`;
+    const response = await kobacoAxios.post(API, "", {
+      params: {
+        memberId: memberId,
+        advertisementCopyId: copyId,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const recentSavedCopy = async () => {
+  try {
+    const memberId = 1;
+    let API = `/api/v1/copyGallery/recent-loaded/${memberId}`;
+    const response = await kobacoAxios.get(API, {
+      params: memberId,
     });
     return response.data;
   } catch (error) {

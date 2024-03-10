@@ -8,6 +8,8 @@ import { Toggle } from "../common/Toggle";
 import Image from "next/image";
 import { ageOption, genderOption } from "@/lib/data";
 import { createCopy } from "@/lib/action";
+import { useRecoilState } from "recoil";
+import { createCopyState } from "@/context/recoilContext";
 
 interface ValuesProps {
   service: string; // 서비스 선택: 헤드/바디
@@ -19,16 +21,12 @@ interface ValuesProps {
   tone: string; // 톤앤매너
 }
 
-interface CopyProps {
-  submitFunction: React.Dispatch<React.SetStateAction<boolean>>;
-  refreshOption: boolean;
-}
-
-const CopyMaker = (props: CopyProps) => {
+const CopyMaker = () => {
   const size = useWindowSize();
 
   // 생성 버튼 disabled 인지 아닌지
   const [canSubmit, setCanSubmit] = useState(false);
+  const [created, setCreated] = useRecoilState(createCopyState);
 
   const [focused, setFocused] = useState("");
   // 포커스 상태 변경 함수
@@ -124,7 +122,7 @@ const CopyMaker = (props: CopyProps) => {
     await createCopy(values).then((res) => {
       console.log(res);
     });
-    props.submitFunction(!props.refreshOption);
+    setCreated(!created);
   };
 
   return (
