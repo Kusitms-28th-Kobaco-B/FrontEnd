@@ -7,137 +7,7 @@ import Image from "next/image";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-
-const rankData = [
-  [
-    {
-      id: 1,
-      title: "오브제",
-      count: 3,
-      updown: true,
-    },
-    {
-      id: 2,
-      title: "러그",
-      count: 1,
-      updown: false,
-    },
-    {
-      id: 3,
-      title: "테이블",
-      count: 3,
-      updown: false,
-    },
-    {
-      id: 4,
-      title: "의자",
-      count: 1,
-      updown: true,
-    },
-    {
-      id: 5,
-      title: "셀프 인테리어",
-      count: 2,
-      updown: true,
-    },
-  ],
-  [
-    {
-      id: 6,
-      title: "오브제",
-      count: 3,
-      updown: true,
-    },
-    {
-      id: 7,
-      title: "러그",
-      count: 1,
-      updown: false,
-    },
-    {
-      id: 8,
-      title: "테이블",
-      count: 3,
-      updown: false,
-    },
-    {
-      id: 9,
-      title: "의자",
-      count: 1,
-      updown: true,
-    },
-    {
-      id: 10,
-      title: "셀프 인테리어",
-      count: 2,
-      updown: true,
-    },
-  ],
-  [
-    {
-      id: 11,
-      title: "오브제",
-      count: 3,
-      updown: true,
-    },
-    {
-      id: 12,
-      title: "러그",
-      count: 1,
-      updown: false,
-    },
-    {
-      id: 13,
-      title: "테이블",
-      count: 3,
-      updown: false,
-    },
-    {
-      id: 14,
-      title: "의자",
-      count: 1,
-      updown: true,
-    },
-    {
-      id: 15,
-      title: "셀프 인테리어",
-      count: 2,
-      updown: true,
-    },
-  ],
-  [
-    {
-      id: 16,
-      title: "오브제",
-      count: 3,
-      updown: true,
-    },
-    {
-      id: 17,
-      title: "러그",
-      count: 1,
-      updown: false,
-    },
-    {
-      id: 18,
-      title: "테이블",
-      count: 3,
-      updown: false,
-    },
-    {
-      id: 19,
-      title: "의자",
-      count: 1,
-      updown: true,
-    },
-    {
-      id: 20,
-      title: "셀프 인테리어",
-      count: 2,
-      updown: true,
-    },
-  ],
-];
+import { rankData } from "@/lib/trend/trendData";
 
 const RelatedRankChange = () => {
   SwiperCore.use([Navigation, Scrollbar, Autoplay, Pagination]);
@@ -150,6 +20,10 @@ const RelatedRankChange = () => {
           loop={true} // 슬라이드 루프
           spaceBetween={50} // 슬라이스 사이 간격
           slidesPerView={1} // 보여질 슬라이스 수
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+          }}
           /* pagination={{
             clickable: true,
             type: "bullets",
