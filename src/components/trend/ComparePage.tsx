@@ -66,7 +66,7 @@ const ComparePage = () => {
             <span>"{searchWord}"</span>에 대한 비교 분석 결과입니다.
           </SearchText>
 
-          <ContentWrapper width="87.5rem">
+          <ContentWrapper width="77.5rem">
             <TitleBox>
               <Title>검색량 추이</Title>
               <CategoryBox>
@@ -87,7 +87,7 @@ const ComparePage = () => {
             <MultiLineChart />
           </ContentWrapper>
 
-          <ContentWrapper width="87.5rem">
+          <ContentWrapper width="77.5rem">
             <Title marginBottom="2.5rem">성별 검색 비중</Title>
             <ChartBox>
               <CompareRadialChart label="홈 인테리어" woman={56} man={44} />
@@ -96,7 +96,7 @@ const ComparePage = () => {
             </ChartBox>
           </ContentWrapper>
 
-          <ContentWrapper width="87.5rem">
+          <ContentWrapper width="77.5rem">
             <Title marginBottom="2.5rem">연령별 검색 비중 TOP 3</Title>
             <ChartBox>
               <CompareBarChart
@@ -117,7 +117,7 @@ const ComparePage = () => {
             </ChartBox>
           </ContentWrapper>
 
-          <ContentContainer width="87.5rem">
+          <ContentContainer width="77.5rem">
             <TitleBottomBox>
               <Title>연관어 비교</Title>
               <CategoryBox>
@@ -236,7 +236,7 @@ const TrendSearchBox = styled.div`
   width: 60%;
 `;
 const CategoryBox = styled.div`
-  width: 70%;
+  width: 65%;
   display: inline-flex;
   align-items: center;
   font-size: 1rem;

@@ -51,7 +51,7 @@ const Label = styled.div`
 
 const Genre = styled.div`
   color: ${({ theme }) => theme.colors.grey5};
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 700;
   background: ${({ theme }) => theme.colors.main};
   border-radius: 100px;

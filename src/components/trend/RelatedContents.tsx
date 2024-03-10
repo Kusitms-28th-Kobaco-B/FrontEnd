@@ -4,8 +4,10 @@ import RelatedContent from "./RelatedContent";
 interface RelatedContentProps {
   data: {
     title: string;
+    subtitle: string;
     src: string;
     date: string;
+    img: string;
   }[];
 }
 
@@ -17,8 +19,10 @@ const RelatedContents = (props: RelatedContentProps) => {
       {data.map((relatedContent) => (
         <RelatedContent
           title={relatedContent.title}
+          subtitle={relatedContent.subtitle}
           src={relatedContent.src}
           date={relatedContent.date}
+          img={relatedContent.img}
         />
       ))}
     </RelatedContentBox>

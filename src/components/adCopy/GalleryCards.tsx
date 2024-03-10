@@ -18,7 +18,7 @@ const GalleryCards = () => {
     recentSavedCopy().then((result) => {
       setCopy(result);
     });
-  });
+  }, []);
 
   return (
     <Layout length={copy.length}>
@@ -41,7 +41,7 @@ const GalleryCards = () => {
               </Tag>
             </TagBox>
             {v.message}
-            <EditWrapper>조회 1900</EditWrapper>
+            <EditWrapper>{`조회 5`}</EditWrapper>
           </CopyWrapper>
         ))}
       </BoxContents>

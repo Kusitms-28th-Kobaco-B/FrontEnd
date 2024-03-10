@@ -76,3 +76,13 @@ export const recentSavedCopy = async () => {
     console.error(error);
   }
 };
+
+export const getGallery = async () => {
+  try {
+    let API = `/api/v1/copyGallery/search?startDate=20240301&endDate=20240401`;
+    const response = await kobacoAxios.get(API);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};

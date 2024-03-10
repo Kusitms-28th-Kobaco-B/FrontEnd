@@ -7,12 +7,19 @@ import styled from "styled-components";
 import { Button } from "../common/ButtonStyle";
 import { useState } from "react";
 import IntroModal from "./IntroModal";
+import VideoModal from "../common/VideoModal";
+import { guideKey } from "@/constants/videoKey";
 
 export default function Intro() {
   // 모달 버튼 클릭 유무를 저장할 state
   const [showModal, setShowModal] = useState(false);
   // 버튼 클릭시 모달 버튼 클릭 유무를 설정하는 state 함수
   const clickModal = () => setShowModal(!showModal);
+
+  // 모달 버튼 클릭 유무를 저장할 state
+  const [showModal2, setShowModal2] = useState(false);
+  // 버튼 클릭시 모달 버튼 클릭 유무를 설정하는 state 함수
+  const clickModal2 = () => setShowModal2(!showModal2);
 
   const Variants = {
     offscreen: {
@@ -94,6 +101,7 @@ export default function Intro() {
           initial="default"
           whileHover="scaleUp"
           variants={Variants}
+          onClick={clickModal2}
         >
           아이작 소개 영상 바로가기
           <Image
@@ -103,6 +111,13 @@ export default function Intro() {
             height={18}
           />
         </LinkButtonWrapper>
+        {showModal2 && (
+          <VideoModal
+            title="아이작 소개 영상"
+            clickModal={clickModal2}
+            videoKey={guideKey}
+          />
+        )}
         <IntroMiniTextBlock onClick={clickModal}>
           광고 제작이 처음이신가요?
         </IntroMiniTextBlock>
