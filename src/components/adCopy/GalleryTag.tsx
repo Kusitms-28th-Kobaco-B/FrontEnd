@@ -116,7 +116,7 @@ export default GalleryTag;
 const TagRegion = styled.div`
   display: flex;
   flex-direction: column;
-  width: 87.5rem;
+  width: 77.5rem;
   height: 17.75rem;
   flex-shrink: 0;
   padding: 3.5rem 5rem;

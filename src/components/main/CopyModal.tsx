@@ -5,40 +5,52 @@ import Image from "next/image";
 import { Button } from "../common/ButtonStyle";
 import { colors } from "@/styles/theme";
 import { copyGuideData } from "@/lib/data";
+import { AnimatePresence } from "framer-motion";
 
 const CopyModal = (props: any) => {
   // 전달받은 state 함수
   const { clickModal } = props;
 
   return (
-    // 뒷배경을 클릭하면 모달을 나갈 수 있게 해야하므로 뒷 배경 onClick에 state함수를 넣는다.
-    <SearchModalBox onClick={clickModal}>
-      <SearchModalContent
-        width="50rem"
-        height="32.875rem"
-        onClick={(e) => e.stopPropagation()}
+    <AnimatePresence>
+      {/* 뒷배경을 클릭하면 모달을 나갈 수 있게 해야하므로 뒷 배경 onClick에
+      state함수를 넣는다. */}
+      <SearchModalBox
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={clickModal}
       >
-        <ModalContent>
-          <CloseButton onClick={clickModal}>
-            <Image src="/main/Cross.svg" alt="close" width={30} height={30} />
-          </CloseButton>
-          <Title>광고 카피 이용가이드</Title>
-          <CardBlock>
-            {copyGuideData.map((v) => (
-              <CardWrapper>
-                <CardTitle color={colors.white}>{v.index}</CardTitle>
-                <CardTitle color={colors.mainLight1}>{v.title}</CardTitle>
-                <CardDescription>{v.description}</CardDescription>
-              </CardWrapper>
-            ))}
-          </CardBlock>
-          <MiniText>
-            * N카피는 네이버 HyperCLOVA 기반, K카피는 카카오브레인 KoGPT
-            기반으로 구축한 AI 카피 생성 모델이에요.
-          </MiniText>
-        </ModalContent>
-      </SearchModalContent>
-    </SearchModalBox>
+        <SearchModalContent
+          width="50rem"
+          height="32.875rem"
+          onClick={(e) => e.stopPropagation()}
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.8, opacity: 0 }}
+        >
+          <ModalContent>
+            <CloseButton onClick={clickModal}>
+              <Image src="/main/Cross.svg" alt="close" width={30} height={30} />
+            </CloseButton>
+            <Title>광고 카피 이용가이드</Title>
+            <CardBlock>
+              {copyGuideData.map((v) => (
+                <CardWrapper>
+                  <CardTitle color={colors.white}>{v.index}</CardTitle>
+                  <CardTitle color={colors.mainLight1}>{v.title}</CardTitle>
+                  <CardDescription>{v.description}</CardDescription>
+                </CardWrapper>
+              ))}
+            </CardBlock>
+            <MiniText>
+              * N카피는 네이버 HyperCLOVA 기반, K카피는 카카오브레인 KoGPT
+              기반으로 구축한 AI 카피 생성 모델이에요.
+            </MiniText>
+          </ModalContent>
+        </SearchModalContent>
+      </SearchModalBox>
+    </AnimatePresence>
   );
 };
 

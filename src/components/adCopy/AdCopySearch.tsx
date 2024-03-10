@@ -16,7 +16,7 @@ const AdCopySearch = (props: AdCopySearchProps) => {
   const { setSearchName } = props;
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && event.nativeEvent.isComposing === false) {
       setSearchName(name);
       setName("");
     }
