@@ -48,13 +48,13 @@ const BoxContents = styled.div`
   &::-webkit-scrollbar-track {
     margin: 1rem;
     border-radius: 10px;
-    background-color: ${colors.secondaryLight3};
+    background-color: ${colors.grey0};
   }
   &::-webkit-scrollbar {
     width: 0.375rem;
   }
   &::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background-color: ${colors.secondary};
+    background-color: ${colors.main};
   }
 `;
