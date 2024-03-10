@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Image from "next/image";
 import { colors } from "@/styles/theme";
 import YouTube from "react-youtube";
+import { AnimatePresence } from "framer-motion";
 
 interface VideoProps {
   title: string;
@@ -14,37 +15,47 @@ const VideoModal = (props: VideoProps) => {
   const { title, clickModal, videoKey } = props;
 
   return (
-    // 뒷배경을 클릭하면 모달을 나갈 수 있게 해야하므로 뒷 배경 onClick에 state함수를 넣는다.
-    <SearchModalBox onClick={clickModal}>
-      <SearchModalContent
-        width="50rem"
-        height="32.875rem"
-        onClick={(e) => e.stopPropagation()}
+    <AnimatePresence>
+      {/* 뒷배경을 클릭하면 모달을 나갈 수 있게 해야하므로 뒷 배경 onClick에 state함수를 넣는다. */}
+      <SearchModalBox
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={clickModal}
       >
-        <ModalContent>
-          <CloseButton onClick={clickModal}>
-            <Image src="/main/Cross.svg" alt="close" width={30} height={30} />
-          </CloseButton>
-          <Title>{title}</Title>
-          <YouTube
-            videoId={videoKey}
-            opts={{
-              width: "800",
-              height: "370",
-              playerVars: {
-                autoplay: 1, //자동재생 O
-                rel: 0, //관련 동영상 표시하지 않음
-                modestbranding: 1, // 컨트롤 바에 youtube 로고를 표시하지 않음
-              },
-            }}
-            //이벤트 리스너
-            onEnd={(e) => {
-              e.target.stopVideo(0);
-            }}
-          />
-        </ModalContent>
-      </SearchModalContent>
-    </SearchModalBox>
+        <SearchModalContent
+          width="50rem"
+          height="32.875rem"
+          onClick={(e) => e.stopPropagation()}
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.8, opacity: 0 }}
+        >
+          <ModalContent>
+            <CloseButton onClick={clickModal}>
+              <Image src="/main/Cross.svg" alt="close" width={30} height={30} />
+            </CloseButton>
+            <Title>{title}</Title>
+            <YouTube
+              videoId={videoKey}
+              opts={{
+                width: "800",
+                height: "370",
+                playerVars: {
+                  autoplay: 1, //자동재생 O
+                  rel: 0, //관련 동영상 표시하지 않음
+                  modestbranding: 1, // 컨트롤 바에 youtube 로고를 표시하지 않음
+                },
+              }}
+              //이벤트 리스너
+              onEnd={(e) => {
+                e.target.stopVideo(0);
+              }}
+            />
+          </ModalContent>
+        </SearchModalContent>
+      </SearchModalBox>
+    </AnimatePresence>
   );
 };
 
