@@ -16,6 +16,7 @@ const TrendTop = () => {
       <ToggleButton items={["최근 1주일", "최근 1개월", "최근 6개월"]} />
 
       <DateBox>
+        <DateContainer>직접 입력</DateContainer>
         <DateContainer>
           <Image
             src="/trend/calendar.svg"
@@ -76,6 +77,7 @@ const DateBox = styled.div`
 const DateContainer = styled.div`
   display: flex;
   align-items: center;
+  cursor: pointer;
 
   > div {
     margin: 0 0.1rem 0 0.5rem;
