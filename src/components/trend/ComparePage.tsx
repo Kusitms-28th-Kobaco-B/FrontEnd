@@ -114,15 +114,12 @@ const ComparePage = () => {
           <ContentContainer width="87.5rem">
             <TitleBottomBox>
               <Title>연관어 비교</Title>
-              <ImageBottomBox>
-                <Image
-                  src="/trend/commonWord.svg"
-                  alt="연관어 비교"
-                  width={10}
-                  height={10}
-                />
-                공통 키워드
-              </ImageBottomBox>
+              <CategoryBox>
+                <CategoryRegion>
+                  <Circle color="#936DAA" />
+                  공통 키워드
+                </CategoryRegion>
+              </CategoryBox>
             </TitleBottomBox>
             <ImageBox>
               <Image
@@ -190,12 +187,6 @@ const TitleBottomBox = styled.div`
   align-items: center;
   gap: 2rem;
   margin-bottom: 2.5rem;
-`;
-
-const ImageBottomBox = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 `;
 
 const Title = styled.div<{ marginBottom?: string }>`
