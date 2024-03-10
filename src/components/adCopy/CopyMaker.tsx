@@ -6,44 +6,27 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Toggle } from "../common/Toggle";
 import Image from "next/image";
+import { ageOption, genderOption } from "@/lib/data";
+import { createCopy } from "@/lib/action";
+import { useRecoilState } from "recoil";
+import { createCopyState } from "@/context/recoilContext";
 
-const genderOption = ["전체", "남성", "여성"];
-const genderENUM = ["ALL", "MALE", "FEMALE"];
-const ageOption = [
-  "전체",
-  "0~9세",
-  "10~19세",
-  "20~29세",
-  "30~39세",
-  "40~49세",
-  "50~59세",
-  "60세 이상",
-];
-const ageENUM = [
-  "ALL",
-  "ZERO",
-  "TEN",
-  "TWENTY",
-  "THIRTY",
-  "FORTY",
-  "FIFTY",
-  "SIXTY",
-];
-const toneENUM = [
-  "DEFAULT",
-  "WORDPLAY",
-  "ACTION",
-  "REVIEW",
-  "WARNING",
-  "EMOTIONAL",
-  "PROBLEM",
-  "QUESTION",
-];
+interface ValuesProps {
+  service: string; // 서비스 선택: 헤드/바디
+  projectName: string; // 프로젝트명
+  productName: string; // 상품/서비스명
+  targetGender: string; // 성별
+  targetAge: string; // 연령대
+  keyword: string[]; //키워드
+  tone: string; // 톤앤매너
+}
+
 const CopyMaker = () => {
   const size = useWindowSize();
 
   // 생성 버튼 disabled 인지 아닌지
   const [canSubmit, setCanSubmit] = useState(false);
+  const [created, setCreated] = useRecoilState(createCopyState);
 
   const [focused, setFocused] = useState("");
   // 포커스 상태 변경 함수
@@ -69,35 +52,54 @@ const CopyMaker = () => {
   // 키워드 input이 변경될 때마다 업데이트
   const keywordChange = (e: any) => {
     setInputValue(e.target.value);
+    setValues({
+      ...values,
+      keyword: keywords,
+    });
   };
   // 엔터를 누르면 키워드 배열에 값 추가 & input 초기화
   // e.nativeEvent.isComposing == false: onKeyDown 한글 오류 해결
   const keywordEnter = (e: any) => {
     if (e.key === "Enter" && e.nativeEvent.isComposing === false) {
       e.preventDefault();
-      setKeywords((prevKeywords) => [...prevKeywords, inputValue]);
+      setKeywords((prevKeywords) => {
+        const updatedKeywords = [...prevKeywords, inputValue];
+        setValues({
+          ...values,
+          keyword: updatedKeywords,
+        });
+        return updatedKeywords;
+      });
+      setInputValue("");
       setInputValue("");
     }
   };
   // 키워드 배열에서 삭제
   const removeKeyword = (indexToRemove: number) => {
-    setKeywords((prevKeywords) =>
-      prevKeywords.filter((_, index) => index !== indexToRemove)
-    );
+    setKeywords((prevKeywords) => {
+      const updatedKeywords = prevKeywords.filter(
+        (_, index) => index !== indexToRemove
+      );
+      setValues({
+        ...values,
+        keyword: updatedKeywords,
+      });
+      return updatedKeywords;
+    });
   };
 
   // 톤앤매너
   const [tone, setTone] = useState<number>(0);
 
   // 백엔드에 보낼 데이터 (Form submit 용)
-  const [values, setValues] = useState({
-    service: category, // 서비스 선택: 헤드/바디
+  const [values, setValues] = useState<ValuesProps>({
+    service: "", // 서비스 선택: 헤드/바디
     projectName: "", // 프로젝트명
     productName: "", // 상품/서비스명
-    targetGender: genderENUM[genderOption.indexOf(targetGender)], // 성별
-    targetAge: ageENUM[ageOption.indexOf(targetAge)], // 연령대
-    keyword: keywords, //키워드
-    tone: toneENUM[tone], // 톤앤매너
+    targetGender: "", // 성별
+    targetAge: "", // 연령대
+    keyword: [], //키워드
+    tone: "", // 톤앤매너
   });
 
   useEffect(() => {
@@ -107,40 +109,20 @@ const CopyMaker = () => {
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-
-    if (name === "service") {
+    if (name === "projectName" || name === "productName") {
       setValues({
         ...values,
         [name]: value,
-      });
-    } else if (name === "projectName" || name === "productName") {
-      setValues({
-        ...values,
-        [name]: value,
-      });
-    } else if (name === "targetGender") {
-      const index = genderOption.indexOf(value);
-
-      setValues({
-        ...values,
-        [name]: genderENUM[index],
-      });
-    } else if (name === "targetAge") {
-      const index = ageOption.indexOf(value);
-
-      setValues({
-        ...values,
-        [name]: ageENUM[index],
-      });
-    } else if (name === "keyword") {
-    } else if (name === "tone") {
-      const index = toneENUM.indexOf(name);
-
-      setValues({
-        ...values,
-        [name]: toneENUM[index],
       });
     }
+  };
+
+  const postData = async () => {
+    alert(`${values.service}`);
+    await createCopy(values).then((res) => {
+      console.log(res);
+    });
+    setCreated(!created);
   };
 
   return (
@@ -164,7 +146,13 @@ const CopyMaker = () => {
               active={category == "HEAD"}
               color={colors.main}
               background={colors.mainLight6}
-              onClick={() => categoryClick("HEAD")}
+              onClick={() => {
+                categoryClick("HEAD");
+                setValues({
+                  ...values,
+                  ["service"]: "HEAD",
+                });
+              }}
             >
               헤드 카피
             </SelectButton>
@@ -172,7 +160,13 @@ const CopyMaker = () => {
               active={category == "BODY"}
               color={colors.secondary}
               background={colors.secondaryLight3}
-              onClick={() => categoryClick("BODY")}
+              onClick={() => {
+                categoryClick("BODY");
+                setValues({
+                  ...values,
+                  ["service"]: "BODY",
+                });
+              }}
             >
               바디 카피
             </SelectButton>
@@ -187,6 +181,7 @@ const CopyMaker = () => {
             placeholder="예) SNS 광고"
             onFocus={() => handleFocus("projectName")}
             onBlur={handleBlur}
+            onChange={handleChange}
             autoComplete="off"
           />
         </Contents>
@@ -199,6 +194,7 @@ const CopyMaker = () => {
             placeholder="예) 아이스크림"
             onFocus={() => handleFocus("productName")}
             onBlur={handleBlur}
+            onChange={handleChange}
             autoComplete="off"
           />
         </Contents>
@@ -210,19 +206,24 @@ const CopyMaker = () => {
               placeholder="성별 선택"
               currentValue={targetGender}
               setCurrentValue={setTargetGender}
+              contents={"targetGender"}
+              values={values}
+              setValues={setValues}
             />
             <Toggle
               optionData={ageOption}
               placeholder="연령대 선택"
               currentValue={targetAge}
               setCurrentValue={setTargetAge}
+              contents={"targetAge"}
+              values={values}
+              setValues={setValues}
             />
           </InlineContent>
         </Contents>
         <Contents focus={focused} opt={"keyword"}>
           키워드
           <InputContent
-            //required
             type="text"
             name="keyword"
             placeholder="예) 저당, 동물성크림"
@@ -255,7 +256,13 @@ const CopyMaker = () => {
               active={tone == 1}
               color={colors.main}
               background="#212121"
-              onClick={() => setTone(1)}
+              onClick={() => {
+                setTone(1);
+                setValues({
+                  ...values,
+                  tone: "DEFAULT",
+                });
+              }}
             >
               기본형
             </ToneButton>
@@ -266,7 +273,13 @@ const CopyMaker = () => {
                 active={tone == 2}
                 color={colors.main}
                 background="#212121"
-                onClick={() => setTone(2)}
+                onClick={() => {
+                  setTone(2);
+                  setValues({
+                    ...values,
+                    tone: "WORDPLAY",
+                  });
+                }}
               >
                 언어유희형
               </ToneButton>
@@ -275,7 +288,13 @@ const CopyMaker = () => {
               active={tone == 3}
               color={colors.main}
               background="#212121"
-              onClick={() => setTone(3)}
+              onClick={() => {
+                setTone(3);
+                setValues({
+                  ...values,
+                  tone: "ACTION",
+                });
+              }}
             >
               행동촉구형
             </ToneButton>
@@ -283,7 +302,13 @@ const CopyMaker = () => {
               active={tone == 4}
               color={colors.main}
               background="#212121"
-              onClick={() => setTone(4)}
+              onClick={() => {
+                setTone(4);
+                setValues({
+                  ...values,
+                  tone: "REVIEW",
+                });
+              }}
             >
               리뷰형
             </ToneButton>
@@ -292,7 +317,13 @@ const CopyMaker = () => {
               active={tone == 5}
               color={colors.main}
               background="#212121"
-              onClick={() => setTone(5)}
+              onClick={() => {
+                setTone(5);
+                setValues({
+                  ...values,
+                  tone: "WARNING",
+                });
+              }}
             >
               경고형
             </ToneButton>
@@ -300,7 +331,13 @@ const CopyMaker = () => {
               active={tone == 6}
               color={colors.main}
               background="#212121"
-              onClick={() => setTone(6)}
+              onClick={() => {
+                setTone(6);
+                setValues({
+                  ...values,
+                  tone: "EMOTIONAL",
+                });
+              }}
             >
               감정호소형
             </ToneButton>
@@ -308,7 +345,13 @@ const CopyMaker = () => {
               active={tone == 7}
               color={colors.main}
               background="#212121"
-              onClick={() => setTone(7)}
+              onClick={() => {
+                setTone(7);
+                setValues({
+                  ...values,
+                  tone: "PROBLEM",
+                });
+              }}
             >
               문제제기형
             </ToneButton>
@@ -319,7 +362,13 @@ const CopyMaker = () => {
                 active={tone == 8}
                 color={colors.main}
                 background="#212121"
-                onClick={() => setTone(8)}
+                onClick={() => {
+                  setTone(8);
+                  setValues({
+                    ...values,
+                    tone: "QUESTION",
+                  });
+                }}
               >
                 질문형
               </ToneButton>
@@ -327,7 +376,12 @@ const CopyMaker = () => {
           </ToneRegion>
         </Contents>
       </BoxContent>
-      <SubmitButton disabled={!canSubmit} type="submit" form="createCopy">
+      <SubmitButton
+        disabled={!canSubmit}
+        type="submit"
+        form="createCopy"
+        onClick={postData}
+      >
         광고카피생성
       </SubmitButton>
     </BoxWrapper>

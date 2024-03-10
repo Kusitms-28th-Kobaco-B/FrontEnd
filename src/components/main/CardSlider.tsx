@@ -36,7 +36,14 @@ export const CardSlider = () => {
       <SwiperSlide>
         <CardRegion>
           <CardWrapper>
-            <CategoryButton>지역</CategoryButton>
+            <TagWrapper>
+              <Tag color={colors.main} background={colors.mainLight6}>
+                헤드카피
+              </Tag>
+              <Tag color={colors.grey1} background={colors.grey5}>
+                기본형
+              </Tag>
+            </TagWrapper>
             <CardContents>
               ‘내가 사는 지역을 더 살기 좋게, 더 매력 있게’
             </CardContents>
@@ -50,7 +57,14 @@ export const CardSlider = () => {
       <SwiperSlide>
         <CardRegion>
           <CardWrapper>
-            <CategoryButton>가구패키지</CategoryButton>
+            <TagWrapper>
+              <Tag color={colors.secondary} background={colors.secondaryLight3}>
+                바디카피
+              </Tag>
+              <Tag color={colors.grey1} background={colors.grey5}>
+                행동촉구형
+              </Tag>
+            </TagWrapper>
             <CardContents>
               {`‘새학기 새출발엔 역시 가구지!
                 책상부터 의자까지 한번에 해결할 수 있는 패키지 상품 출시!
@@ -66,7 +80,14 @@ export const CardSlider = () => {
       <SwiperSlide>
         <CardRegion>
           <CardWrapper>
-            <CategoryButton>가구</CategoryButton>
+            <TagWrapper>
+              <Tag color={colors.main} background={colors.mainLight6}>
+                헤드카피
+              </Tag>
+              <Tag color={colors.grey1} background={colors.grey5}>
+                언어유희형
+              </Tag>
+            </TagWrapper>
             <CardContents>
               {`‘내 방에서 만나는 예술 작품, 내 꿈과 미래를 그리는 공간,
                 멋진 가구 하나면 충분하다.’`}
@@ -74,35 +95,49 @@ export const CardSlider = () => {
           </CardWrapper>
           <CardInfoBlock>
             <CardInfo>박예진 | 2024.09.07</CardInfo>
-            <CardInfo>조회 1900</CardInfo>
+            <CardInfo>조회 1200</CardInfo>
           </CardInfoBlock>
         </CardRegion>
       </SwiperSlide>
       <SwiperSlide>
         <CardRegion>
           <CardWrapper>
-            <CategoryButton>간장치킨</CategoryButton>
+            <TagWrapper>
+              <Tag color={colors.secondary} background={colors.secondaryLight3}>
+                바디카피
+              </Tag>
+              <Tag color={colors.grey1} background={colors.grey5}>
+                행동촉구형
+              </Tag>
+            </TagWrapper>
             <CardContents>
               {`‘오늘 저녁은 치킨이다! 바삭한 튀김옷과\n단짠단짠 간장소스의 환상적인 조합’`}
             </CardContents>
           </CardWrapper>
           <CardInfoBlock>
             <CardInfo>백건우 | 2024.09.07</CardInfo>
-            <CardInfo>조회 1900</CardInfo>
+            <CardInfo>조회 2100</CardInfo>
           </CardInfoBlock>
         </CardRegion>
       </SwiperSlide>
       <SwiperSlide>
         <CardRegion>
           <CardWrapper>
-            <CategoryButton>서비스 선택</CategoryButton>
+            <TagWrapper>
+              <Tag color={colors.secondary} background={colors.secondaryLight3}>
+                바디카피
+              </Tag>
+              <Tag color={colors.grey1} background={colors.grey5}>
+                기본형
+              </Tag>
+            </TagWrapper>
             <CardContents>
               {`‘아이들 학습 수준에 맞춰 개별 맞춤 수업이 가능해요.\n체계적인 관리를 통해 성적 향상도 쑥쑥!’`}
             </CardContents>
           </CardWrapper>
           <CardInfoBlock>
             <CardInfo>유해령 | 2024.09.07</CardInfo>
-            <CardInfo>조회 1900</CardInfo>
+            <CardInfo>조회 600</CardInfo>
           </CardInfoBlock>
         </CardRegion>
       </SwiperSlide>
@@ -155,14 +190,7 @@ const CategoryButton = styled.div`
   line-height: normal;
 `;
 const CardContents = styled.div`
-  /* color: ${colors.greyTypeMain};
-  text-align: center;
-  font-size: 0.9375rem;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 1.375rem; */
   white-space: pre-line;
-
   color: var(--Basic-White, #fff);
   text-align: center;
   font-size: 1.125rem;
@@ -180,5 +208,25 @@ const CardInfo = styled.div`
   font-size: 0.75rem;
   font-style: normal;
   font-weight: 400;
+  line-height: normal;
+`;
+const TagWrapper = styled.div`
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: inline-flex;
+  gap: 0.5rem;
+`;
+const Tag = styled.div<{ color: string; background: string }>`
+  padding: 0.375rem 0.875rem;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1.375rem;
+  border: 1px solid ${(props) => props.color};
+  background: ${(props) => props.background};
+  color: ${(props) => props.color};
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 500;
   line-height: normal;
 `;

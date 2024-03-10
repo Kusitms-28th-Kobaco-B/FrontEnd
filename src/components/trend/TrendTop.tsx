@@ -62,7 +62,7 @@ const Layout = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 87.5rem;
+  width: 77.5rem;
 `;
 
 const DateBox = styled.div`

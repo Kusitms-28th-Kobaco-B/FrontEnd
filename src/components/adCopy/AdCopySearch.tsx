@@ -26,7 +26,7 @@ const AdCopySearch = (props: AdCopySearchProps) => {
   }, [adCopy]);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && event.nativeEvent.isComposing === false) {
       setSearchName(name);
       setAdCopy((prev: string[]) => {
         const updatedTrend = [name, ...prev];

@@ -1,29 +1,28 @@
 import { styled } from "styled-components";
 import Image from "next/image";
+import { colors } from "@/styles/theme";
 
 interface RelatedContentProps {
   title: string;
+  subtitle: string;
   src: string;
   date: string;
+  img: string;
 }
 
 const RelatedContent = (props: RelatedContentProps) => {
-  const { title, src, date } = props;
+  const { title, subtitle, src, date, img } = props;
 
   return (
     <Layout>
       <TopBox>
-        <Image
-          src="/trend/content.svg"
-          alt="content"
-          width={100}
-          height={100}
-        />
+        <Image src={img} alt="content" width={100} height={100} />
       </TopBox>
       <BottomBox>
         <Title>{title}</Title>
+        <Subtitle>{subtitle}</Subtitle>
         <DescriptionBox>
-          <SrcButton>{src}</SrcButton>
+          <SrcButton src={src}>{src}</SrcButton>
           <DateText>{date}</DateText>
         </DescriptionBox>
       </BottomBox>
@@ -55,9 +54,19 @@ const BottomBox = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.625rem;
+  color: ${colors.grey3};
 `;
-
+const Subtitle = styled.div`
+  font-size: 0.8rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.625rem;
+  color: ${colors.grey1};
+`;
 const DescriptionBox = styled.div`
   display: flex;
   justify-content: space-between;
@@ -65,16 +74,27 @@ const DescriptionBox = styled.div`
   margin-top: 1rem;
 `;
 
-const SrcButton = styled.button`
+const SrcButton = styled.button<{ src: string }>`
   padding: 0.5rem 0.8rem;
   border-radius: 30px;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
   border: none;
-  background: ${({ theme }) => theme.colors.main};
+  background: ${(props) =>
+    props.src == "유튜브"
+      ? colors.main
+      : props.src == "네이버 기사"
+        ? "#73B65A"
+        : colors.grey1};
   color: ${({ theme }) => theme.colors.white};
 `;
 
 const DateText = styled.div`
-  font-size: 0.9rem;
   color: ${({ theme }) => theme.colors.grey1};
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 `;

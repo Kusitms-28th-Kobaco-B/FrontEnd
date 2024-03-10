@@ -1,7 +1,6 @@
 "use client";
 
 import styled from "styled-components";
-import { LineChart } from "./LineChart";
 import TrendSearch from "./PeopleSearch";
 import { useEffect, useState } from "react";
 import TrendTop from "./TrendTop";
@@ -12,6 +11,8 @@ import Image from "next/image";
 import { infoData, relatedContentCompareData } from "@/lib/trend/trendData";
 import RelatedContents from "./RelatedContents";
 import CompareTop from "./CompareTop";
+import { MultiLineChart } from "./MultiLineChart";
+import { colors } from "@/styles/theme";
 
 const ComparePage = () => {
   const [searchWord, setSearchWord] = useState("");
@@ -65,15 +66,28 @@ const ComparePage = () => {
             <span>"{searchWord}"</span>에 대한 비교 분석 결과입니다.
           </SearchText>
 
-          <ContentWrapper width="87.5rem">
+          <ContentWrapper width="77.5rem">
             <TitleBox>
               <Title>검색량 추이</Title>
+              <CategoryBox>
+                <CategoryRegion>
+                  <Circle color={colors.main} />홈 인테리어
+                </CategoryRegion>
+                <CategoryRegion>
+                  <Circle color={colors.secondary} />
+                  샴푸
+                </CategoryRegion>
+                <CategoryRegion>
+                  <Circle color={colors.grey4} />
+                  바디워시
+                </CategoryRegion>
+              </CategoryBox>
               <ToggleButton items={["일별", "월별", "주별"]} />
             </TitleBox>
-            <LineChart />
+            <MultiLineChart />
           </ContentWrapper>
 
-          <ContentWrapper width="87.5rem">
+          <ContentWrapper width="77.5rem">
             <Title marginBottom="2.5rem">성별 검색 비중</Title>
             <ChartBox>
               <CompareRadialChart label="홈 인테리어" woman={56} man={44} />
@@ -82,11 +96,11 @@ const ComparePage = () => {
             </ChartBox>
           </ContentWrapper>
 
-          <ContentWrapper width="87.5rem">
+          <ContentWrapper width="77.5rem">
             <Title marginBottom="2.5rem">연령별 검색 비중 TOP 3</Title>
             <ChartBox>
               <CompareBarChart
-                label="홈 인테리어"
+                label="홈 인테리어 "
                 color="#ED6171"
                 infoData={infoData}
               />
@@ -103,18 +117,15 @@ const ComparePage = () => {
             </ChartBox>
           </ContentWrapper>
 
-          <ContentContainer width="87.5rem">
+          <ContentContainer width="77.5rem">
             <TitleBottomBox>
               <Title>연관어 비교</Title>
-              <ImageBottomBox>
-                <Image
-                  src="/trend/commonWord.svg"
-                  alt="연관어 비교"
-                  width={10}
-                  height={10}
-                />
-                공통 키워드
-              </ImageBottomBox>
+              <CategoryBox>
+                <CategoryRegion>
+                  <Circle color="#936DAA" />
+                  공통 키워드
+                </CategoryRegion>
+              </CategoryBox>
             </TitleBottomBox>
             <ImageBox>
               <Image
@@ -184,12 +195,6 @@ const TitleBottomBox = styled.div`
   margin-bottom: 2.5rem;
 `;
 
-const ImageBottomBox = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-`;
-
 const Title = styled.div<{ marginBottom?: string }>`
   display: inline-flex;
   padding: 0.6875rem 1.5rem;
@@ -229,4 +234,26 @@ const TrendSearchBox = styled.div`
   display: flex;
   flex-direction: column;
   width: 60%;
+`;
+const CategoryBox = styled.div`
+  width: 65%;
+  display: inline-flex;
+  align-items: center;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  gap: 0.88rem;
+`;
+const Circle = styled.div<{ color: string }>`
+  width: 0.625rem;
+  height: 0.625rem;
+  flex-shrink: 0;
+  border-radius: 100%;
+  background-color: ${(props) => props.color};
+`;
+const CategoryRegion = styled.div`
+  gap: 0.62rem;
+  display: inline-flex;
+  align-items: center;
 `;

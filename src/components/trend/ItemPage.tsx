@@ -40,7 +40,7 @@ const ItemPage = () => {
             <span>"{searchName}"</span>에 대한 인물 분석 결과입니다.
           </SearchText>
 
-          <ContentWrapper width="87.5rem">
+          <ContentWrapper width="77.5rem">
             <TitleBox>
               <Title>검색량 추이</Title>
               <ToggleButton items={["일별", "월별", "주별"]} />
@@ -49,33 +49,33 @@ const ItemPage = () => {
           </ContentWrapper>
 
           <InlineContent>
-            <ContentWrapper width="28.125rem">
+            <ContentWrapper width="24.875rem">
               <Title marginBottom="1.88rem">성별 검색 비중</Title>
               <RadialChart />
             </ContentWrapper>
-            <ContentWrapper width="28.125rem">
+            <ContentWrapper width="24.875rem">
               <Title marginBottom="1.88rem">연령별 검색 비중 TOP 3</Title>
               <BarChart />
             </ContentWrapper>
-            <ContentWrapper width="28.125rem">
+            <ContentWrapper width="24.875rem">
               <Title marginBottom="1.88rem">연관어 순위 변화</Title>
               <RelatedRankChange />
             </ContentWrapper>
           </InlineContent>
 
-          <ContentWrapper width="87.5rem">
+          <ContentWrapper width="77.5rem">
             <Title marginBottom="2.5rem">관련 해시태그</Title>
             <RelatedHashTag />
           </ContentWrapper>
 
-          <ContentWrapper width="87.5rem">
+          <ContentWrapper width="77.5rem">
             <Title marginBottom="2.5rem">네이버 쇼핑 키워드</Title>
             <InlineContent>
               <Image
                 src="/trend/shoppingKeyword.png"
                 alt="keyword"
-                width={652}
-                height={449}
+                width={602}
+                height={399}
               />
               <ShoppingList />
             </InlineContent>

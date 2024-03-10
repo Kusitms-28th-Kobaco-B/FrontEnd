@@ -11,6 +11,12 @@ export const isLoggedInState = atom({
   effects: [persistAtom],
 });
 
+export const createCopyState = atom({
+  key: "createCopy",
+  default: false,
+  effects: [persistAtom],
+});
+
 export default function RecoilContextProvider({
   children,
 }: {

@@ -152,7 +152,7 @@ const Layout = styled.div`
   top: 0;
   left: 0;
   right: 0;
-  z-index: 999;
+  z-index: 99;
 `;
 
 const LogoBox = styled.div`

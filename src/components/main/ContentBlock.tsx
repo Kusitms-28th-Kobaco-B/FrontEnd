@@ -3,6 +3,7 @@
 import { colors } from "@/styles/theme";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import styled from "styled-components";
 
 interface ContentBlockProps {
@@ -16,6 +17,7 @@ interface Card {
   title: string;
   description: string;
   img: string;
+  link: string;
 }
 
 export default function ContentBlock(props: ContentBlockProps) {
@@ -32,38 +34,73 @@ export default function ContentBlock(props: ContentBlockProps) {
         delay: 0,
       },
     },
+    offscreen: {
+      y: +50,
+      opacity: 0,
+    },
+    onscreen: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.8,
+        delay: 0,
+      },
+    },
   };
 
   return (
-    <Layout>
+    <Layout initial="offscreen" whileInView="onscreen" variants={Variants}>
       <Title>{title}</Title>
       <Description>{description}</Description>
       <CardBlock>
-        {card.map((v, i) => (
-          <CardWrapper
-            key={i}
-            initial="default"
-            whileHover="scaleUp"
-            variants={Variants}
-            trend={isTrend}
-          >
-            <ImageWrapper>
-              <Image
-                src={v.img}
-                alt={`card-image.${i}`}
-                width={336}
-                height={210}
-              />
-            </ImageWrapper>
-            <CardTitle>{v.title}</CardTitle>
-            <CardDescription>{v.description}</CardDescription>
-          </CardWrapper>
-        ))}
+        {card.map((v, i) =>
+          v.link == "" ? (
+            <CardWrapper
+              key={i}
+              initial="default"
+              whileHover="scaleUp"
+              variants={Variants}
+              trend={isTrend}
+            >
+              <ImageWrapper>
+                <Image
+                  src={v.img}
+                  alt={`card-image.${i}`}
+                  width={336}
+                  height={210}
+                />
+              </ImageWrapper>
+              <CardTitle>{v.title}</CardTitle>
+              <CardDescription>{v.description}</CardDescription>
+            </CardWrapper>
+          ) : (
+            <Link href={v.link}>
+              <CardWrapper
+                key={i}
+                initial="default"
+                whileHover="scaleUp"
+                variants={Variants}
+                trend={isTrend}
+              >
+                <ImageWrapper>
+                  <Image
+                    src={v.img}
+                    alt={`card-image.${i}`}
+                    width={336}
+                    height={210}
+                  />
+                </ImageWrapper>
+                <CardTitle>{v.title}</CardTitle>
+                <CardDescription>{v.description}</CardDescription>
+              </CardWrapper>
+            </Link>
+          )
+        )}
       </CardBlock>
     </Layout>
   );
 }
-const Layout = styled.div`
+const Layout = styled(motion.div)`
   display: flex;
   flex-direction: column;
   width: 100%;

@@ -33,9 +33,15 @@ ChartJS.register({
   afterDraw: function (chart: any, easing: any) {
     if (chart.tooltip._active && chart.tooltip._active.length) {
       const activePoint = chart.tooltip._active[0];
+      const activePoint2 = chart.tooltip._active[1];
+      const activePoint3 = chart.tooltip._active[2];
       const ctx = chart.ctx;
       const x = activePoint.element.x;
       const y = activePoint.element.y;
+      const x2 = activePoint2.element.x;
+      const y2 = activePoint2.element.y;
+      const x3 = activePoint3.element.x;
+      const y3 = activePoint3.element.y;
 
       // 세로선 그리기
       const topY = chart.scales.y.top;
@@ -80,11 +86,75 @@ ChartJS.register({
       ctx4.fillStyle = colors.main;
       ctx4.fill();
       ctx4.restore();
+
+      // point smog 그리기
+      const ctx5 = chart.ctx;
+      ctx5.save();
+      ctx5.beginPath();
+      ctx5.arc(x2, y2, 12, 0, 2 * Math.PI);
+      ctx5.strokeStyle = "#FFEFF14D";
+      ctx5.stroke();
+      ctx5.fillStyle = "#FFEFF14D";
+      ctx5.fill();
+      ctx5.restore();
+
+      // point border 그리기
+      const ctx6 = chart.ctx;
+      ctx6.save();
+      ctx6.beginPath();
+      ctx6.arc(x2, y2, 8, 0, 2 * Math.PI);
+      ctx6.strokeStyle = "#8195ff";
+      ctx6.stroke();
+      ctx6.fillStyle = "#8195ff";
+      ctx6.fill();
+      ctx6.restore();
+
+      // point 그리기
+      const ctx7 = chart.ctx;
+      ctx7.save();
+      ctx7.beginPath();
+      ctx7.arc(x2, y2, 6, 0, 2 * Math.PI);
+      ctx7.stroke();
+      ctx7.fillStyle = "#8195ff";
+      ctx7.fill();
+      ctx7.restore();
+
+      // point smog 그리기
+      const ctx8 = chart.ctx;
+      ctx8.save();
+      ctx8.beginPath();
+      ctx8.arc(x3, y3, 12, 0, 2 * Math.PI);
+      ctx8.strokeStyle = "#FFEFF14D";
+      ctx8.stroke();
+      ctx8.fillStyle = "#FFEFF14D";
+      ctx8.fill();
+      ctx8.restore();
+
+      // point border 그리기
+      const ctx9 = chart.ctx;
+      ctx9.save();
+      ctx9.beginPath();
+      ctx9.arc(x3, y3, 8, 0, 2 * Math.PI);
+      ctx9.strokeStyle = "#F1F3FF";
+      ctx9.stroke();
+      ctx9.fillStyle = "#F1F3FF";
+      ctx9.fill();
+      ctx9.restore();
+
+      // point 그리기
+      const ctx10 = chart.ctx;
+      ctx10.save();
+      ctx10.beginPath();
+      ctx10.arc(x3, y3, 6, 0, 2 * Math.PI);
+      ctx10.stroke();
+      ctx10.fillStyle = "#F1F3FF";
+      ctx10.fill();
+      ctx10.restore();
     }
   },
 });
 
-export function LineChart() {
+export function MultiLineChart() {
   const data = () => {
     return {
       labels: [
@@ -97,12 +167,12 @@ export function LineChart() {
       ],
       datasets: [
         {
-          data: [33, 53, 45, 60, 44, 65],
+          data: [33, 53, 45, 60, 14, 55],
           fill: "start",
           backgroundColor: (context: ScriptableContext<"line">) => {
             const ctx = context.chart.ctx;
-            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-            gradient.addColorStop(0.02, "#D33B4D");
+            const gradient = ctx.createLinearGradient(0, 0, 0, 700);
+            gradient.addColorStop(0.01, "#D33B4D");
             gradient.addColorStop(1, "#26262600");
             return gradient;
           },
@@ -112,10 +182,41 @@ export function LineChart() {
           pointBorderColor: colors.mainLight1,
           pointBackgroundColor: colors.mainLight1,
         },
+        {
+          data: [33, 20, 80, 40, 44, 45],
+          fill: "start",
+          backgroundColor: (context: ScriptableContext<"line">) => {
+            const ctx = context.chart.ctx;
+            const gradient = ctx.createLinearGradient(0, 0, 0, 500);
+            gradient.addColorStop(0.01, "#8195FF");
+            gradient.addColorStop(1, "#26262600");
+            return gradient;
+          },
+          borderColor: "#8195FF",
+          borderWidth: 2,
+          pointRadius: 3,
+          pointBorderColor: "#8195FF",
+          pointBackgroundColor: "#8195FF",
+        },
+        {
+          data: [10, 63, 20, 50, 46, 65],
+          fill: "start",
+          backgroundColor: (context: ScriptableContext<"line">) => {
+            const ctx = context.chart.ctx;
+            const gradient = ctx.createLinearGradient(0, 0, 0, 700);
+            gradient.addColorStop(0.01, "#E3E3E3");
+            gradient.addColorStop(1, "#26262600");
+            return gradient;
+          },
+          borderColor: "#E3E3E3",
+          borderWidth: 2,
+          pointRadius: 3,
+          pointBorderColor: "#E3E3E3",
+          pointBackgroundColor: "#E3E3E3",
+        },
       ],
     };
   };
-
   const options = {
     maintainAspectRatio: false,
     responsive: false,
@@ -152,7 +253,7 @@ export function LineChart() {
         mode: "index" as "index", // 가까워지면 툴팁 나타남
         intersect: false,
         displayColors: false,
-        backgroundColor: colors.main,
+        backgroundColor: "#393939",
         titleColor: colors.grey4,
         titleFont: {
           fontFamily: "Noto Sans KR",
@@ -195,7 +296,7 @@ export function LineChart() {
 
   return (
     <ChartWrapper>
-      <Line width="1200" height="400" data={data()} options={options} />
+      <Line width="1200" height="500" data={data()} options={options} />
     </ChartWrapper>
   );
 }

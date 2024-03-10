@@ -31,7 +31,7 @@ const TrendSearch = (props: TrendPeopleSearchProps) => {
   }, [peopleTrend, itemTrend]);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter" && name !== "") {
+    if (event.key === "Enter" && event.nativeEvent.isComposing === false && name !== "") {
       setSearchName(name);
       if (title === "인물") {
         setPeopleTrend((prev: string[]) => {
