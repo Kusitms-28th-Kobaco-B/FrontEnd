@@ -85,7 +85,7 @@ export const CardSlider = () => {
                 헤드카피
               </Tag>
               <Tag color={colors.grey1} background={colors.grey5}>
-                기본형
+                언어유희형
               </Tag>
             </TagWrapper>
             <CardContents>
@@ -107,7 +107,7 @@ export const CardSlider = () => {
                 바디카피
               </Tag>
               <Tag color={colors.grey1} background={colors.grey5}>
-                언어유희형
+                행동촉구형
               </Tag>
             </TagWrapper>
             <CardContents>
